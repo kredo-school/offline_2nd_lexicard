@@ -1,0 +1,39 @@
+p {
+    margin-bottom: 0 !important;
+}
+
+
+
+.fs-small {
+    font-size: 0.7rem!important;
+}
+
+.text-second {
+    color: #586E72;
+}
+
+.bg-yellow {
+    background-color: #FBF27C !important;
+}
+
+.btn-yellow {
+    --bs-btn-color: #586E72 !important;
+    --bs-btn-bg: #FBF27C !important;
+    --bs-btn-border-color: #FBF27C !important;
+    --bs-btn-hover-color: #586E72 !important;
+    --bs-btn-hover-bg: #FBF27C !important;
+    --bs-btn-hover-border-color: #FBF27C !important;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253 !important;
+    --bs-btn-active-color: #586E72 !important;
+    --bs-btn-active-bg: #FBF27C !important;
+    --bs-btn-active-border-color: #FBF27C !important;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, .125) !important;
+    --bs-btn-disabled-color: #586E72 !important;
+    --bs-btn-disabled-bg: #FBF27C !important;
+    --bs-btn-disabled-border-color: #FBF27C !important;
+}
+.logo-md {
+    height: 3rem;
+    width: 6rem;
+    object-fit: cover;
+ }
