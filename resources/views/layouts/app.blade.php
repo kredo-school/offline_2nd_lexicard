@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -48,12 +48,28 @@
                         @guest
 
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <li class="nav-item dropdown d-flex">
+                                <a href="#" class="nav-link px-5 border-end border-second text-second">
+                                    Quiz
+                                </a>
+
+                                <a href="#" class="nav-link px-5 border-end border-second text-second">
+                                    Other User
+                                </a>
+
+                                <a href="#" class="nav-link px-5 border-end border-second text-second">
+                                    Classrooms
+                                </a>
+
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle px-5 text-second" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a href="#" class="dropdown-item">
+                                        {{ __('Profile') }}
+                                    </a>
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -71,9 +87,43 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 bg-white">
             @yield('content')
         </main>
+
+        @guest
+
+        @else
+            <footer class="bg-second py-5 mt5-">
+                <nav class="navbar navbar-expand-md">
+                    <div class="container">
+                        <ul class="navbar-nav m-auto align-items-center">
+                            <li class="nav-item dropdown d-flex  align-items-center">
+                                <a href="#" class="nav-link px-5 border-end border-yellow text-yellow">
+                                    Quiz
+                                </a>
+
+                                <a href="#" class="nav-link px-5 text-yellow">
+                                    Other User
+                                </a>
+
+                                <a class="navbar-brand" href="{{ url('/') }}">
+                                    <img src="{{ asset('storage/images/lexicard_logo.png') }}" alt="" class="logo-md">
+                                </a>
+
+                                <a href="#" class="nav-link px-5 border-end border-yellow text-yellow">
+                                    Classrooms
+                                </a>
+
+                                <a href="#" class="nav-link px-5 text-yellow">
+                                    Profile
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </footer>
+        @endguest
     </div>
 </body>
 <style>

@@ -64,7 +64,7 @@
                                 </button>
 
                                 @if (Route::has('login'))
-                                    <div class="text-center mt-3">
+                                    <div class="text-center my-3">
                                         <a class="text-decoration-none text-second" href="{{ route('login') }}"><i class="fa-solid fa-arrow-right"></i> have an account?</a>
                                     </div>
                                 @endif
