@@ -1,7 +1,3 @@
-<?php
-    $id = 1;
-?>
-
 @extends('layouts.app')
 
 @section('title', 'Category List')
@@ -64,10 +60,10 @@
         @for($i=0;$i< 10;$i++)
             <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                 <div class="col-4">
-                    <a href="#" class="text-second text-decoration-none fs-3">apple</a>
+                    <a href="{{ route('category.show') }}" class="text-second text-decoration-none fs-3">apple</a>
                 </div>
                 <div class="col-6">
-                    <a href="#" class="text-second text-decoration-none fw-semibold fs-3">りんご</a>
+                    <a href="{{ route('category.show') }}" class="text-second text-decoration-none fw-semibold fs-3">りんご</a>
                 </div>
                 <div class="col-2 justify-content-evenly d-flex">
                     {{-- word edit --}}
@@ -149,7 +145,7 @@
         <div class="modal-body">
           <form action="#" method="post" class="m-auto">
             @csrf
-            <table class="table table-borderless table-white my-4">
+            <table class="table table-borderless my-4">
                 <tr>
                     <td class="text-end text-second pb-4 w-25">Word:</td>
                     <td class="text-second w-75 pt-0">

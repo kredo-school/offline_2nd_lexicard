@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('users.category.index');
+    }
+
+    public function otheruser_index() {
+        return view('users.otheruser.index');
     }
 
     /**
