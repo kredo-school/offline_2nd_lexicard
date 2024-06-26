@@ -29,7 +29,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-yellow shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     <img src="{{ asset('storage/images/lexicard_logo.png') }}" alt="" class="logo-md">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -53,7 +53,7 @@
                                     Quiz
                                 </a>
 
-                                <a href="#" class="nav-link px-5 border-end border-second text-second">
+                                <a href="{{ route('otheruser.index') }}" class="nav-link px-5 border-end border-second text-second">
                                     Other User
                                 </a>
 
@@ -103,11 +103,11 @@
                                     Quiz
                                 </a>
 
-                                <a href="#" class="nav-link px-5 text-yellow">
+                                <a href="{{ route('otheruser.index') }}" class="nav-link px-5 text-yellow">
                                     Other User
                                 </a>
 
-                                <a class="navbar-brand" href="{{ url('/') }}">
+                                <a class="navbar-brand" href="{{ route('home') }}">
                                     <img src="{{ asset('storage/images/lexicard_logo.png') }}" alt="" class="logo-md">
                                 </a>
 
