@@ -8,7 +8,7 @@
     <div class="row w-100 m-auto align-items-center">
         {{-- back --}}
         <div class="col-2 text-center">
-            <a href="{{ route('category.index') }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+            <a href="{{ route('category.category.index') }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
         </div>
         {{-- like --}}
         <div class="col-2 text-start">

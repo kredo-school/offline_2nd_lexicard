@@ -16,6 +16,10 @@ class CategoryController extends Controller
         return view('users.otheruser.index');
     }
 
+    public function quiz_index() {
+        return view('users.quiz.index');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

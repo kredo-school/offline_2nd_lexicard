@@ -52,7 +52,7 @@
                         <p class="text-second fs-5"><i class="fa-solid fa-circle-user fs-3"></i> Username</p>
                     </div>
                     <div class="col-4 text-center">
-                        <a href="{{ route('category.index') }}" class="text-second text-decoration-none fw-bold fs-3">TOEIC</a>
+                        <a href="{{ route('category.category.index') }}" class="text-second text-decoration-none fw-bold fs-3">TOEIC</a>
                     </div>
                     <div class="col-4 justify-content-end d-flex">
                         <p class="text-second text-end"><i class="fa-regular fa-heart"></i>  0</p>
