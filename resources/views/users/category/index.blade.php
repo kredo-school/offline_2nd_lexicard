@@ -38,7 +38,7 @@
         <p class="ps-2">ADD NEW WORD</p>
         <div class="row">
             <div class="col-7">
-                <form action="{{ route('word.create') }}" method="post" class="my-3">
+                <form action="{{ route('word.word.create') }}" method="post" class="my-3">
                     @csrf
                     @method('GET')
                     <div class="input-group my-2">
@@ -60,10 +60,10 @@
         @for($i=0;$i< 10;$i++)
             <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                 <div class="col-4">
-                    <a href="{{ route('category.show') }}" class="text-second text-decoration-none fs-3">apple</a>
+                    <a href="{{ route('category.category.show') }}" class="text-second text-decoration-none fs-3">apple</a>
                 </div>
                 <div class="col-6">
-                    <a href="{{ route('category.show') }}" class="text-second text-decoration-none fw-semibold fs-3">りんご</a>
+                    <a href="{{ route('category.category.show') }}" class="text-second text-decoration-none fw-semibold fs-3">りんご</a>
                 </div>
                 <div class="col-2 justify-content-evenly d-flex">
                     {{-- word edit --}}

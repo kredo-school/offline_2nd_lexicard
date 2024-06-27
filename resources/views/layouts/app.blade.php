@@ -49,11 +49,11 @@
 
                         @else
                             <li class="nav-item dropdown d-flex">
-                                <a href="#" class="nav-link px-5 border-end border-second text-second">
+                                <a href="{{ route('quiz.quiz.index') }}" class="nav-link px-5 border-end border-second text-second">
                                     Quiz
                                 </a>
 
-                                <a href="{{ route('otheruser.index') }}" class="nav-link px-5 border-end border-second text-second">
+                                <a href="{{ route('category.otheruser.index') }}" class="nav-link px-5 border-end border-second text-second">
                                     Other User
                                 </a>
 
@@ -99,11 +99,11 @@
                     <div class="container">
                         <ul class="navbar-nav m-auto align-items-center">
                             <li class="nav-item dropdown d-flex  align-items-center">
-                                <a href="#" class="nav-link px-5 border-end border-yellow text-yellow">
+                                <a href="{{ route('quiz.quiz.index') }}" class="nav-link px-5 border-end border-yellow text-yellow">
                                     Quiz
                                 </a>
 
-                                <a href="{{ route('otheruser.index') }}" class="nav-link px-5 text-yellow">
+                                <a href="{{ route('category.otheruser.index') }}" class="nav-link px-5 text-yellow">
                                     Other User
                                 </a>
 
