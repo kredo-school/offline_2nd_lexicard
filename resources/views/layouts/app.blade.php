@@ -57,7 +57,7 @@
                                     Other User
                                 </a>
 
-                                <a href="#" class="nav-link px-5 border-end border-second text-second">
+                                <a href="{{ route('classroom.classroom.index') }}" class="nav-link px-5 border-end border-second text-second">
                                     Classrooms
                                 </a>
 
@@ -111,7 +111,7 @@
                                     <img src="{{ asset('storage/images/lexicard_logo.png') }}" alt="" class="logo-md">
                                 </a>
 
-                                <a href="#" class="nav-link px-5 border-end border-yellow text-yellow">
+                                <a href="{{ route('classroom.classroom.index') }}" class="nav-link px-5 border-end border-yellow text-yellow">
                                     Classrooms
                                 </a>
 

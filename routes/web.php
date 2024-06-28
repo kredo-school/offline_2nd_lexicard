@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\ClassroomController;
 
 
 
@@ -32,6 +33,16 @@ Route::group(["middleware" => "auth"], function() {
         Route::get('/quiz/show', [QuizController::class, 'show'])->name('quiz.show');
         Route::get('/quiz/result', [QuizController::class, 'result'])->name('quiz.result');
         Route::resource('/quiz', QuizController::class)->except('show');
+    });
+
+    Route::group(['prefix' => 'classroom', 'as' => 'classroom.'], function(){
+        Route::get('/classroom/show', [ClassroomController::class,'show'])->name('classroom.show');
+
+        #Quiz
+        Route::get('/classroom/quiz', [ClassroomController::class, 'quiz'])->name('quiz.index');
+
+
+        Route::resource('/classroom', ClassroomController::class)->except('show');
     });
 
 
