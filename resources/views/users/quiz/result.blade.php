@@ -14,10 +14,10 @@
             <thead class="table-second">
                 <tr>
                     <th class="table-item1">#</th>
-                    <th class="table-item2"></th>
-                    <th class="table-item3">Question</th>
-                    <th class="table-item4">Your Answer</th>
-                    <th class="table-item5">Answer</th>
+                    <th class="table-item1"></th>
+                    <th class="table-item2">Question</th>
+                    <th class="table-item3">Your Answer</th>
+                    <th class="table-item3">Answer</th>
                 </tr>
             </thead>
             <tbody class="table-yellow">

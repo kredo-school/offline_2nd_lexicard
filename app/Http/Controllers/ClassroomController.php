@@ -63,7 +63,38 @@ class ClassroomController extends Controller
         //
     }
 
+    //Quiz
     public function quiz(){
         return view('users.classroom.quiz.index');
+    }
+
+    //Admin
+    public function admin_index() {
+        return view('users.classroom.admin.index');
+    }
+
+    public function admin_edit() {
+        return view('users.classroom.admin.edit');
+    }
+
+    public function admin_category() {
+        return view('users.classroom.admin.category');
+    }
+
+    public function admin_quiz() {
+        return view('users.classroom.admin.quiz.index');
+    }
+
+    public function admin_quiz_create(Request $request) {
+        $title = $request->title;
+        $number = $request->number;
+
+        return view('users.classroom.admin.quiz.create')
+                ->with('title', $title)
+                ->with('number', $number);
+    }
+
+    public function admin_quiz_show() {
+        return view('users.classroom.admin.quiz.show');
     }
 }
