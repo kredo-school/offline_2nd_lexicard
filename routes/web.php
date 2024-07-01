@@ -41,6 +41,16 @@ Route::group(["middleware" => "auth"], function() {
         #Quiz
         Route::get('/classroom/quiz', [ClassroomController::class, 'quiz'])->name('quiz.index');
 
+        #Admin
+        Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
+            Route::get('/', [ClassroomController::class, 'admin_index'])->name('index');
+            Route::get('/edit', [ClassroomController::class, 'admin_edit'])->name('edit');
+            Route::get('/category', [ClassroomController::class, 'admin_category'])->name('category');
+            Route::get('/quiz', [ClassroomController::class, 'admin_quiz'])->name('quiz');
+            Route::get('/quiz/create', [ClassroomController::class, 'admin_quiz_create'])->name('quiz.create');
+            Route::get('/quiz/show', [ClassroomController::class, 'admin_quiz_show'])->name('quiz.show');
+        });
+
 
         Route::resource('/classroom', ClassroomController::class)->except('show');
     });
