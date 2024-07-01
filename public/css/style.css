@@ -159,6 +159,12 @@ p {
     object-fit: cover;
  }
 
+ .icon-lg {
+    height: 20rem;
+    width: 20rem;
+    object-fit: cover;
+ }
+
  /* table */
  .table-second {
     --bs-table-color: #FBF27C;

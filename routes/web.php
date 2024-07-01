@@ -6,6 +6,8 @@ use App\Http\Controllers\WordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\ProfileController;
+
 
 
 
@@ -53,6 +55,13 @@ Route::group(["middleware" => "auth"], function() {
 
 
         Route::resource('/classroom', ClassroomController::class)->except('show');
+    });
+
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function(){
+        Route::get('/profile/follow', [ProfileController::class, 'follow'])->name('follow');
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+        Route::resource('/profile', ProfileController::class)->except('edit');
     });
 
 
