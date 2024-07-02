@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class CategoryController extends Controller
 {
+    private $category;
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
+
     public function index()
     {
         return view('users.category.index');
@@ -33,7 +41,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->category->user_id = Auth::id();
+        $this->category->name = $request->category;
+        $this->category->save();
+
+        return redirect()->route('home');
     }
 
     /**
@@ -41,7 +53,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('users.category.show');
+        return view('users.category.index')
+                ->with('category', $category);
     }
 
     /**
@@ -57,7 +70,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category = $this->category->findOrFail($category->id);
+        $category->name = $request->category;
+        $category->save();
+
+        return redirect()->route('category.category.show', $category);
     }
 
     /**
@@ -65,6 +82,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category = $this->category->findOrFail($category->id);
+        $category->delete();
+
+        return redirect()->route('home');
     }
 }
