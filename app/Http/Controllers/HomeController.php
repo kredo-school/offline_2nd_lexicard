@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -11,9 +12,11 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    private $category;
+    public function __construct(Category $category)
     {
         $this->middleware('auth');
+        $this->category = $category;
     }
 
     /**
@@ -23,6 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('users.home.home');
+        $categories = $this->category->all();
+
+        return view('users.home.home')
+                ->with('categories', $categories);
     }
 }

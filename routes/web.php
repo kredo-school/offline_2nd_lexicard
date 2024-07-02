@@ -18,8 +18,8 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::group(["middleware" => "auth"], function() {
 
     Route::group(['prefix' => 'category', 'as' => 'category.'], function(){
-        Route::get('/category/show', [CategoryController::class, 'show'])->name('category.show');
-        Route::resource('/category', CategoryController::class)->except('show');
+        // Route::get('/category/show', [CategoryController::class, 'show'])->name('category.show');
+        Route::resource('/category', CategoryController::class);
 
         #Other User
         Route::get('/otheruser/category', [CategoryController::class, 'otheruser_index'])->name('otheruser.index');
@@ -28,7 +28,8 @@ Route::group(["middleware" => "auth"], function() {
 
 
     Route::group(['prefix' => 'word', 'as' => 'word.'], function(){
-        Route::resource('/word', WordController::class);
+        Route::get('/word/show', [WordController::class,'show'])->name('word.show');
+        Route::resource('/word', WordController::class)->except('show');
     });
 
     Route::group(['prefix' => 'quiz', 'as' => 'quiz.'], function(){

@@ -5,21 +5,21 @@
     <div class="row">
     {{-- category list --}}
         <div class="col-8">
-            @for($i=0;$i< 10;$i++)
+            @foreach($categories as $category)
                 <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                     <div class="col-4">
                         {{-- if the category is from other user, it will display avatar and username --}}
                         <p class="text-second fs-5"><i class="fa-solid fa-circle-user fs-3"></i> Username</p>
                     </div>
                     <div class="col-4 text-center">
-                        <a href="{{ route('category.category.index') }}" class="text-second text-decoration-none fw-bold fs-3">TOEIC</a>
+                        <a href="{{ route('category.category.show', $category) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
                     </div>
                     <div class="col-4 justify-content-end d-flex">
                         <p class="text-second text-end"><i class="fa-regular fa-heart"></i>  0</p>
                         <p class="text-second text-end ms-3">30  Words</p>
                     </div>
                 </div>
-            @endfor
+            @endforeach
         </div>
     {{-- side bar --}}
         <div class="col-4">
@@ -71,7 +71,7 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">Create New Category</h1>
         </div>
         <div class="modal-body">
-          <form action="#" method="post" class="w-75 m-auto">
+          <form action="{{ route('category.category.store') }}" method="post" class="w-75 m-auto">
             @csrf
             <input type="text" name="category" class="form-control my-4">
             <div class="row justify-content-between my-4">
