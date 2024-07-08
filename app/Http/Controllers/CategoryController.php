@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
 class CategoryController extends Controller
 {
-    private $category;
-    public function __construct(Category $category)
+    private $category, $word;
+    public function __construct(Category $category, Word $word)
     {
         $this->category = $category;
+        $this->word = $word;
     }
 
     public function index()

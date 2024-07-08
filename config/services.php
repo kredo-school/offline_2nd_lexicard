@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'deeply' => [
+        'api_key' => 'd0726021-13ec-4943-b78d-02df1e152935:fx',
+    ],
+
+    'merriam-webster' => [
+        'api_key' => env('MERRIAM_WEBSTER_API_KEY'),
+    ],
+
 ];
