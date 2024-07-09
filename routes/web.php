@@ -6,9 +6,9 @@ use App\Http\Controllers\WordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DeeplController;
-
 
 
 
@@ -66,7 +66,7 @@ Route::group(["middleware" => "auth"], function() {
         Route::resource('/profile', ProfileController::class)->except('edit');
     });
 
-
-    Route::post('/translate', [DeeplController::class, 'translate']);
+    Route::resource('/follow', FollowController::class);
+    Route::resource('/like', LikeController::class);
 
 });

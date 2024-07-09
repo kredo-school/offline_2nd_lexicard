@@ -14,15 +14,31 @@
         <div class="col-8">
             <div class="d-flex">
                 <div class="">
-                    <p class="display-4">Shinsaku</p>
-                    <p class="fs-3">shinsaku32823@gmail.com</p>
+                    <p class="display-4">{{ $user->name }}</p>
+                    <p class="fs-3">{{ $user->email }}</p>
                 </div>
-                <a href="{{ route('profile.profile.edit') }}" class="btn btn-second d-flex h-100 mx-5 my-4">Edit Profile</a>
+                @if($user->id == Auth::id())
+                    <a href="{{ route('profile.profile.edit') }}" class="btn btn-second d-flex h-100 mx-5 my-4">Edit Profile</a>
+                @else
+                    @if($user->isFollowed())
+                        <form action="{{ route('follow.destroy', $user->id) }}" method="post" class="mb-0">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-outline-yellow d-flex mx-5 my-4">Unfollow</button>
+                        </form>
+                    @else
+                        <form action="{{ route('follow.store') }}" method="post" class="mb-0">
+                            @csrf
+                            <input type="hidden" value="{{ $user->id }}" name="following_id">
+                            <button type="submit" class="btn btn-outline-yellow d-flex mx-5 my-4">follow</button>
+                        </form>
+                    @endif
+                @endif
             </div>
             <div class="d-flex mt-3">
-                <a href="{{ route('profile.profile.index') }}" class="text-decoration-none text-second me-4">10 category</a>
-                <a href="{{ route('profile.follow') }}" class="text-decoration-none text-second me-4">0 follower</a>
-                <a href="{{ route('profile.follow') }}" class="text-decoration-none text-second me-4">3 following</a>
+                <a href="{{ route('profile.profile.index') }}" class="text-decoration-none text-second me-4">{{ $user->categories->count() }} categories</a>
+                <a href="{{ route('profile.follow') }}" class="text-decoration-none text-second me-4">{{ $user->follower()->count() }} follower</a>
+                <a href="{{ route('profile.follow') }}" class="text-decoration-none text-second me-4">{{ $user->following()->count() }} following</a>
             </div>
         </div>
     </div>
@@ -58,7 +74,7 @@
                 </div>
             @endfor
         </div>
-        </div>
+    </div>
 </div>
 
 @endsection

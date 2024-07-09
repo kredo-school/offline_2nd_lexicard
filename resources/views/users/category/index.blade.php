@@ -8,32 +8,54 @@
     <div class="row w-100 m-auto align-items-center">
         {{-- back --}}
         <div class="col-2 text-center">
-            <a href="{{ route('home') }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+            @if ($category->user_id == Auth::id() || $category->isLiked() || $category->user->isFollowed())
+                <a href="{{ route('home') }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+            @else
+                <a href="{{ route('category.otheruser.index') }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+            @endif
         </div>
         {{-- like --}}
         <div class="col-2 text-start">
-            <i class="fa-regular fa-heart fs-1"></i>
+            @if($category->isliked())
+                <form action="{{ route('like.destroy', $category->id) }}" method="post" class="mb-0 me-2">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn p-0 text-danger"><i class="fa-solid fa-heart fa-2x"></i></button>
+                </form>
+            @else
+                <form action="{{ route('like.store') }}" method="post" class="mb-0 me-2">
+                    @csrf
+                    <input type="hidden" value="{{ $category->id }}" name="category_id">
+                    <button type="submit" class="btn p-0 text-second"><i class="fa-regular fa-heart fa-2x"></i></button>
+                </form>
+            @endif
         </div>
+        {{-- category title --}}
         <div class="col-4">
             <p class="text-yellow bg-second p-2 my-5 text-center w-100 m-auto fs-3">{{ $category->name }}</p>
         </div>
         {{-- edit --}}
         <div class="col-2 text-end">
+            @if($category->user_id == Auth::id())
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editCategory-{{$category->id}}">
                 <i class="fa-solid fa-pen-to-square fs-2 text-second"></i>
                 <p class="fs-small text-second">EDIT</p>
             </button>
+            @endif
         </div>
         {{-- delete --}}
         <div class="col-2 text-center">
+            @if($category->user_id == Auth::id())
             <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#deleteCategory-{{$category->id}}">
                 <i class="fa-solid fa-trash fs-2 text-danger"></i>
                 <p class="fs-small text-second">DELETE</p>
             </button>
+            @endif
         </div>
     </div>
 
     {{-- Add --}}
+    @if($category->user_id == Auth::id())
     <div class="w-75 m-auto">
         <p class="ps-2">ADD NEW WORD</p>
         <div class="row">
@@ -54,7 +76,13 @@
                 </button>
             </div>
         </div>
+        @if (session('error'))
+            <div class="alert alert-danger text-center">
+                {{ session('error') }}
+            </div>
+        @endif
     </div>
+    @endif
 
     {{-- Word List --}}
     <div class="my-5">
@@ -68,6 +96,7 @@
                 </div>
                 <div class="col-2 justify-content-evenly d-flex">
                     {{-- word edit --}}
+                    @if($category->user_id == Auth::id())
                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editWord-{{ $word->word->id }}">
                         <i class="fa-solid fa-pen-to-square fs-2 text-second"></i>
                     </button>
@@ -75,6 +104,7 @@
                     <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#deleteWord-{{ $word->word->id }}">
                         <i class="fa-solid fa-trash fs-2 text-danger"></i>
                     </button>
+                    @endif
                 </div>
             </div>
         @empty

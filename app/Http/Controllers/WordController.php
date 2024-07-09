@@ -41,6 +41,10 @@ class WordController extends Controller
         $definition = $this->def_and_exa($word)['definition'];
         $example_with_it = $this->def_and_exa($word)['example'];
 
+        if($definition == null || $example_with_it == null){
+            return redirect()->back()->with('error', 'The word '. $word .' not found.');
+        }
+
 
         $example = str_replace('{it}', '', $example_with_it);
         $example = str_replace('{/it}', '', $example);
@@ -113,7 +117,13 @@ class WordController extends Controller
         $def = $jsonPath->find("$..$shortdef");
         $exp = $jsonPath->find("$..$example");
 
-
+        if(!isset($def[0][0])){
+            $def_and_exa = [
+                'definition' => null,
+                'example' => null,
+            ];
+            return $def_and_exa;
+        }
 
         $def_and_exa = [
             'definition' => $def[0][0],
@@ -150,26 +160,28 @@ class WordController extends Controller
     public function store_more(Request $request)
     {
         foreach ($request->word as $word) {
-            $definitionAndExample = $this->def_and_exa($word);
+            if($word) {
+                $definitionAndExample = $this->def_and_exa($word);
 
-            $word = $this->word->create([
-                "user_id" => Auth::id(),
-                "word" => $word,
-                "meaning" => $this->translate($word),
-                "definition" => $definitionAndExample['definition'],
-                "example" => $definitionAndExample['example'],
-            ]);
+                if($definitionAndExample['definition'] == null){
+                    return redirect()->back()->with('error', 'The word '. $word .' not found.');
+                }
 
-            if($request->category){
-                // $category_post[] = ["category_id" => $request->category];
-
-                // $word->categoryWord()->createMany($category_post);
-
-                $word->categoryWord()->create([
-                    "category_id" => $request->category,
+                $word = $this->word->create([
+                    "user_id" => Auth::id(),
+                    "word" => $word,
+                    "meaning" => $this->translate($word),
+                    "definition" => $definitionAndExample['definition'],
+                    "example" => $definitionAndExample['example'],
                 ]);
-            }
 
+                if($request->category){
+
+                    $word->categoryWord()->create([
+                        "category_id" => $request->category,
+                    ]);
+                }
+            }
         }
 
 

@@ -2,30 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Category;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
 
-class ProfileController extends Controller
+class LikeController extends Controller
 {
-    private $user;
-    public function __construct(User $user)
+    private $like;
+    public function __construct(Like $like)
     {
-        $this->user = $user;
+        $this->like = $like;
     }
     public function index()
     {
-        $user = $this->user->findOrFail(Auth::id());
-
-        return view('users.profile.index')
-                ->with('user', $user);
-    }
-
-    public function follow()
-    {
-        return view('users.profile.follow');
+        //
     }
 
     /**
@@ -41,32 +34,33 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->like->category_id = $request->category_id;
+        $this->like->user_id = Auth::id();
+        $this->like->save();
+
+        return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Like $like)
     {
-        $user = $this->user->findOrFail($id);
-
-        return view('users.profile.index')
-                ->with('user', $user);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit(Like $like)
     {
-        return view('users.profile.edit');
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Like $like)
     {
         //
     }
@@ -74,8 +68,10 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $this->like->where('user_id', Auth::id())->where('category_id', $id)->delete();
+
+        return redirect()->back();
     }
 }
