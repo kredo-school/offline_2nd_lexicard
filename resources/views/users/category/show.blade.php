@@ -21,17 +21,21 @@
         </div>
         {{-- edit --}}
         <div class="col-2 text-end">
+            @if($word->user_id == Auth::id())
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editWord-{{ $word->id }}">
                 <i class="fa-solid fa-pen-to-square fs-2 text-second"></i>
                 <p class="fs-small text-second">EDIT</p>
             </button>
+            @endif
         </div>
         {{-- delete --}}
         <div class="col-2 text-center">
+            @if($word->user_id == Auth::id())
             <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#deleteWord-{{ $word->id }}">
                 <i class="fa-solid fa-trash fs-2 text-danger"></i>
                 <p class="fs-small text-second">DELETE</p>
             </button>
+            @endif
         </div>
     </div>
 
@@ -50,7 +54,7 @@
         </tr>
     </table>
 
-    
+
 
 
 </div>

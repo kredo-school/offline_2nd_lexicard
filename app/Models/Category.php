@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Category extends Model
 {
@@ -17,5 +18,13 @@ class Category extends Model
     public function categoryWord()
     {
         return $this->hasMany(CategoryWord::class);
+    }
+
+    public function like(){
+        return $this->hasMany(Like::class);
+    }
+
+    public function isliked(){
+        return $this->Like()->where('user_id', Auth::id())->exists();
     }
 }

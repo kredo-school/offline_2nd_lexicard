@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class HomeController extends Controller
 {
@@ -26,9 +29,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = $this->category->all();
+        $categories = $this->all_categories();
 
         return view('users.home.home')
                 ->with('categories', $categories);
+    }
+
+    public function all_categories() {
+        $categories = $this->category->latest()->get();
+
+        $all_categories = [];
+
+        foreach ($categories as $category) {
+            if($category->user_id == Auth::id() || $category->user->isFollowed() || $category->isLiked()) {
+                $all_categories[] = $category;
+            }
+        }
+
+        return $all_categories;
     }
 }

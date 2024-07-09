@@ -3,27 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Word;
+use App\Models\Follow;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
 class CategoryController extends Controller
 {
-    private $category, $word;
-    public function __construct(Category $category, Word $word)
+    private $category, $follow, $like;
+    public function __construct(Category $category, Follow $follow, Like $like)
     {
         $this->category = $category;
-        $this->word = $word;
+        $this->follow = $follow;
+        $this->like = $like;
     }
 
     public function index()
     {
-        return view('users.category.index');
+        //
     }
 
     public function otheruser_index() {
-        return view('users.otheruser.index');
+        $user_id = Auth::id();
+        $followed_ids = $this->follow->where('follower_id', $user_id)->pluck('following_id');
+        $liked_ids = $this->like->where('user_id', $user_id)->pluck('category_id');
+
+        $categories = $this->category->where('user_id', '!=', $user_id)
+        ->whereNotIn('user_id', $followed_ids)
+        ->whereNotIn('id', $liked_ids)
+        ->get();
+
+        return view('users.otheruser.index')
+                ->with('categories', $categories);
     }
 
     public function quiz_index() {
