@@ -34,9 +34,13 @@ Route::group(["middleware" => "auth"], function() {
     });
 
     Route::group(['prefix' => 'quiz', 'as' => 'quiz.'], function(){
-        Route::get('/quiz/show', [QuizController::class, 'show'])->name('quiz.show');
-        Route::get('/quiz/result', [QuizController::class, 'result'])->name('quiz.result');
+        Route::get('/show', [QuizController::class, 'show'])->name('quiz.show');
+        Route::get('/run/{num}', [QuizController::class, 'runQuizzes'])->name('quiz.run');
+        Route::get('/JtoEFlashcards/{num}', [QuizController::class, 'runJtoEFlashcards'])->name('quiz.jtoe');
+        Route::get('/EtoJFlashcards/{num}', [QuizController::class, 'runEtoJFlashcards'])->name('quiz.etoj');
+
         Route::resource('/quiz', QuizController::class)->except('show');
+
     });
 
     Route::group(['prefix' => 'classroom', 'as' => 'classroom.'], function(){

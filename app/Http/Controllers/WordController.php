@@ -110,7 +110,6 @@ class WordController extends Controller
         ]);
 
         $definition = json_decode($response->getBody()->getContents(), true);
-
         $shortdef = 'shortdef';
         $example = 't';
         $jsonPath = new JSONPath($definition);
