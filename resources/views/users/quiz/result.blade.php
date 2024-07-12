@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row w-100 align-items-center">
         <div class="col-4 m-auto">
-            <p class="text-second p-2 my-5 text-center w-100 m-auto fs-1">3/8</p>
+            <p class="text-second p-2 my-5 text-center w-100 m-auto fs-1">{{ $correct_answers }}/{{ count($quizzes) }}</p>
         </div>
 
         <table class="table w-75 m-auto">
@@ -21,62 +21,20 @@
                 </tr>
             </thead>
             <tbody class="table-yellow">
-                <tr>
-                    <th scope="row">1</th>
-                    <th><i class="fa-solid fa-check text-success"></i></th>
-                    <td>りんご</td>
-                    <td>apple</td>
-                    <td>apple</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <th><i class="fa-solid fa-xmark text-danger"></i></th>
-                    <td>みかん</td>
-                    <td>banana</td>
-                    <td>orange</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <th><i class="fa-solid fa-xmark text-danger"></i></th>
-                    <td>ぶどう</td>
-                    <td>orange</td>
-                    <td>grape</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <th><i class="fa-solid fa-check text-success"></i></th>
-                    <td>ぶどう</td>
-                    <td>grape</td>
-                    <td>grape</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <th><i class="fa-solid fa-xmark text-danger"></i></th>
-                    <td>りんご</td>
-                    <td>grape</td>
-                    <td>apple</td>
-                </tr>
-                <tr>
-                    <th scope="row">6</th>
-                    <th><i class="fa-solid fa-xmark text-danger"></i></th>
-                    <td>みかん</td>
-                    <td>banana</td>
-                    <td>orange</td>
-                </tr>
-                <tr>
-                    <th scope="row">7</th>
-                    <th><i class="fa-solid fa-xmark text-danger"></i></th>
-                    <td>ぶどう</td>
-                    <td>orange</td>
-                    <td>grape</td>
-                </tr>
-                <tr>
-                    <th scope="row">8</th>
-                    <th><i class="fa-solid fa-check text-success"></i></th>
-                    <td>ぶどう</td>
-                    <td>grape</td>
-                    <td>grape</td>
-                </tr>
+                @for($i = 0; $i < count($quizzes); $i++)
+                    <tr>
+                        <th scope="row">{{ $i+1 }}</th>
+                        <th>
+                            @if($choices[$i] == $quizzes[$i]['answer'])
+                                <i class="fa-solid fa-check text-success"></i></th>
+                            @else
+                                <i class="fa-solid fa-xmark text-danger"></i>
+                            @endif
+                        <td>{{ $quizzes[$i]['question'] }}</td>
+                        <td>{{ $choices[$i] }}</td>
+                        <td>{{ $quizzes[$i]['answer'] }}</td>
+                    </tr>
+                @endfor
         </table>
 
         <div class="text-center">

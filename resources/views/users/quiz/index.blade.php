@@ -43,18 +43,12 @@
                 <div class="col-6">
                     <p class="text-second p-2 my-2 text-center w-100 m-auto fs-3">Choose Quiz Format</p>
                     <div class="form-check ps-0">
-                        <div class="">
-                            <input type="radio" name="category" class="btn-check form-check-input" id="toeic" autocomplete="off">
-                            <label class="btn btn-outline-yellow w-100 p-3 fs-5 border border-second rounded-4 my-2 fw-semibold" for="toeic">TOEIC</label>
-                        </div>
-                        <div class="div">
-                            <input type="radio" name="category" class="btn-check form-check-input" id="food" autocomplete="off">
-                            <label class="btn btn-outline-yellow w-100 p-3 fs-5 border border-second rounded-4 my-2 fw-semibold" for="food">Food</label>
-                        </div>
-                        <div class="div">
-                            <input type="radio" name="category" class="btn-check form-check-input" id="music" autocomplete="off">
-                            <label class="btn btn-outline-yellow w-100 p-3 fs-5 border border-second rounded-4 my-2 fw-semibold" for="music">Music</label>
-                        </div>
+                        @foreach($categories as $category)
+                            <div class="">
+                                <input type="radio" name="category" class="btn-check form-check-input" value="{{ $category->id }}" id="{{ $category->id }}" autocomplete="off">
+                                <label class="btn btn-outline-yellow w-100 p-3 fs-5 border border-second rounded-4 my-2 fw-semibold" for="{{ $category->id }}">{{ $category->name }}</label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
