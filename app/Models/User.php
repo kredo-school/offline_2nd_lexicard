@@ -42,6 +42,10 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
+    public function userClassroom(){
+        return $this->hasMany(UserClassroom::class, 'user_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

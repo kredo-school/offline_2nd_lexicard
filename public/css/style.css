@@ -146,10 +146,15 @@ p {
  }
 
  .logo-lg {
-    height: 11rem;
+    height: 14rem;
     width: 22rem;
     object-fit: cover;
     margin: auto;
+ }
+
+ .logo-xl {
+    height: 24rem;
+    object-fit: cover;
  }
 
  /* icon */

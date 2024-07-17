@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('admin_id')
+                        ->default(1)->comment("1: user 2: classroom");
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('classroom_id')->nullable();
             $table->string('name');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('classroom_id')->references('id')->on('classrooms');
         });
     }
 

@@ -28,7 +28,6 @@
             </form>
         </div>
     </div>
-
     <div class="w-75 m-auto">
         <div class="row">
             <div class="col-7 m-auto">
@@ -37,7 +36,7 @@
                     @csrf
                     @method('GET')
                     <div class="input-group my-2">
-                        <input type="text" name="classroom" class="form-control rounded-start-4">
+                        <input type="text" name="classroom" value="{{ $search }}" class="form-control rounded-start-4">
                         <button class="btn btn-search rounded-end-4 px-4 py-2" type="submit">Search</button>
                       </div>
                 </form>
@@ -46,29 +45,9 @@
     </div>
 
     <div class="">
-        <div class="d-flex">
-            <form action="{{ route('classroom.classroom.index') }}" method="post">
-                @csrf
-                @method('GET')
-                @if($display == 'all_class')
-                    <button type="submit" class="btn bg-yellow px-4 border border-yellow rounded-bottom-0 rounded-top-4 text-second">Find class</button>
-                @else
-                    <button type="submit" class="btn bg-light px-4 border  rounded-bottom-0 rounded-top-4 text-second">Find Class</button>
-                @endif
-            </form>
-            <form action="{{ route('classroom.classroom.index') }}" method="post">
-                @csrf
-                @method('GET')
-                <input type="hidden" name="my_class" value="{{ Auth::id() }}">
-                @if($display =='my_class')
-                    <button type="submit" class="btn bg-yellow px-4 border border-yellow rounded-bottom-0 rounded-top-4 text-second">My class</button>
-                @else
-                    <button type="submit" class="btn bg-light px-4 border  rounded-bottom-0 rounded-top-4 text-second">My Class</button>
-                @endif
-            </form>
-        </div>
-
-        <div class="row bg-yellow">
+        <button class="btn bg-yellow px-4 border border-yellow rounded-bottom-0 rounded-top-4 text-second">My class</button>
+        <button class="btn bg-light px-4 border  rounded-bottom-0 rounded-top-4 text-second">Find Class</button>
+        <div class="row bg-yellow mb-5">
             @forelse($classrooms as $classroom)
                 <div class="col-4">
                     <a href="{{ route('classroom.classroom.show', $classroom) }}" class="card m-2 shadow-sm p-3 rounded text-start text-decoration-none" style="height: 24rem;">

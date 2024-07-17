@@ -5,15 +5,32 @@
     <div class="p-2 border rounded-3 mx-3">
         <div class="row">
             <div class="col-6">
-                <img src="{{ asset('storage/images/classroom.png') }}" alt="" class="w-100">
+                <img src="{{ $classroom->image }}" alt="" class="w-100 logo-xl">
             </div>
             <div class="col-6 p-4">
-                <h1 class="text-second fs-2">TOEIC class <i class="fa-solid fa-lock"></i></h1>
-                <p class="text-second">20 students</p>
-                <p class="text-second fs-5 pb-5 mt-3 h-50">Let's get high score on the TOEIC</p>
-                <form action="#" method="post" class="text-center">
-                    <button type="submit" class="btn btn-yellow w-50 text-center p-2 border border-second rounded-4 my-3">Join</button>
-                </form>
+                <h1 class="text-second fs-2">
+                    {{ $classroom->name }}
+                    @if($classroom->status_id == 1)
+                        <i class="fa-solid fa-unlock"></i>
+                    @else
+                        <i class="fa-solid fa-lock"></i>
+                    @endif
+                </h1>
+                <p class="text-second">{{ $classroom->userClassroom->count() }} students</p>
+                <p class="text-second fs-5 pb-5 mt-3 h-50">{{ $classroom->description }}</p>
+                @if($classroom->isJoined())
+                    <form action="{{ route('classroom.leave', $classroom->id) }}" method="post" class="text-center">
+                        @csrf
+                        @method('GET')
+                        <button type="submit" class="btn btn-yellow w-50 text-center p-2 border border-second rounded-4 my-3">Leave</button>
+                    </form>
+                @else
+                    <form action="{{ route('classroom.join', $classroom->id) }}" method="post" class="text-center">
+                        @csrf
+                        @method('GET')
+                        <button type="submit" class="btn btn-yellow w-50 text-center p-2 border border-second rounded-4 my-3">Join</button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
@@ -22,7 +39,7 @@
     <div class="row">
     {{-- category list --}}
         <div class="col-8">
-            @for($i=0;$i< 10;$i++)
+            @forelse($classroom->categories as $category)
                 <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                     <div class="col-4">
                         {{-- if the category is from other user, it will display avatar and username --}}
@@ -36,12 +53,14 @@
                         <p class="text-second text-end ms-3">30  Words</p>
                     </div>
                 </div>
-            @endfor
+            @empty
+                <p class="text-second text-center p-5">No categories yet.</p>
+            @endforelse
         </div>
     {{-- side bar --}}
         <div class="col-4">
             {{-- Quiz --}}
-            <a href="{{ route('classroom.quiz.index') }}" type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3">
+            <a href="{{ route('classroom.quiz.index') }}" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3">
                 Quiz
             </a>
             {{-- Sort Category --}}

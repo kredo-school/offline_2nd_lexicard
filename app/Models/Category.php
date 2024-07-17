@@ -15,6 +15,11 @@ class Category extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
+    }
+
     public function categoryWord()
     {
         return $this->hasMany(CategoryWord::class);

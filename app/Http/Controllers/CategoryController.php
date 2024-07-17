@@ -30,9 +30,9 @@ class CategoryController extends Controller
         $liked_ids = $this->like->where('user_id', $user_id)->pluck('category_id');
 
         $categories = $this->category->where('user_id', '!=', $user_id)
-        ->whereNotIn('user_id', $followed_ids)
-        ->whereNotIn('id', $liked_ids)
-        ->get();
+                                    ->whereNotIn('user_id', $followed_ids)
+                                    ->whereNotIn('id', $liked_ids)
+                                    ->get();
 
         return view('users.otheruser.index')
                 ->with('categories', $categories);
