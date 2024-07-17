@@ -44,7 +44,14 @@ Route::group(["middleware" => "auth"], function() {
     });
 
     Route::group(['prefix' => 'classroom', 'as' => 'classroom.'], function(){
-        Route::get('/classroom/show', [ClassroomController::class,'show'])->name('classroom.show');
+        Route::resource('/classroom', ClassroomController::class);
+
+        #Search
+        Route::get('/search', [ClassroomController::class,'search'])->name('search');
+
+        #Join
+        Route::get('/join/{id}', [ClassroomController::class, 'join'])->name('join');
+        Route::get('/leave/{id}', [ClassroomController::class, 'leave'])->name('leave');
 
         #Quiz
         Route::get('/classroom/quiz', [ClassroomController::class, 'quiz'])->name('quiz.index');
@@ -58,9 +65,6 @@ Route::group(["middleware" => "auth"], function() {
             Route::get('/quiz/create', [ClassroomController::class, 'admin_quiz_create'])->name('quiz.create');
             Route::get('/quiz/show', [ClassroomController::class, 'admin_quiz_show'])->name('quiz.show');
         });
-
-
-        Route::resource('/classroom', ClassroomController::class)->except('show');
     });
 
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function(){

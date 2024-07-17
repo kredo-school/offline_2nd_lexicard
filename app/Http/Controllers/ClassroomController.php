@@ -4,63 +4,102 @@ namespace App\Http\Controllers;
 
 use App\Models\Classroom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
+
+
+
 
 class ClassroomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private $classroom;
+    public function __construct(Classroom $classroom)
     {
-        return view('users.classroom.users.index');
+        $this->classroom = $classroom;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index(Request $request)
+    {
+        // dd($this->classroom->userClassroom());
+
+        if(isset($request->my_class)){
+            $classrooms = $this->classroom->whereHas('userClassroom', function($query){
+                $query->where('user_id', Auth::user()->id);
+            })->get();
+            $display = 'my_class';
+        }else{
+            $classrooms = $this->classroom->all();
+            $display = 'all_class';
+        }
+
+
+
+
+        return view('users.classroom.users.index')
+                ->with('classrooms', $classrooms)
+                ->with('display', $display);
+    }
+
     public function create()
     {
         return view('users.classroom.users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'password' =>['required','confirmed']
+        ]);
+
+        $this->classroom->name = $request->name;
+        $this->classroom->image = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));
+        $this->classroom->description = $request->description;
+        $this->classroom->status_id = $request->status;
+        $this->classroom->password = Hash::make($request->password);
+        $this->classroom->save();
+
+        $classroom = $this->classroom->fresh();
+
+        return redirect()->route('classroom.classroom.show', $classroom);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Classroom $classroom)
     {
-        return view('users.classroom.users.show');
+        $classroom = $this->classroom->findOrFail($classroom->id);
+
+        return view('users.classroom.users.show')
+                ->with('classroom', $classroom);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Classroom $classroom)
-    {
-        //
+    //Join & Leave
+    public function join($id) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        $category_post[] = ["user_id" => Auth::id()];
+
+        $classroom->userClassroom()->createMany($category_post);
+
+        return redirect()->route('classroom.classroom.show', $classroom);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Classroom $classroom)
-    {
-        //
+    public function leave($id) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        $classroom->userClassroom()->where('user_id', Auth::id())->delete();
+
+        return redirect()->route('classroom.classroom.show', $classroom);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Classroom $classroom)
-    {
-        //
+    //Search
+    public function search(Request $request) {
+        $search = $request->classroom;
+        $classrooms = $this->classroom->where('name', 'like', '%'.$search.'%')->get();
+
+        return view('users.classroom.users.search')
+                ->with('classrooms', $classrooms)
+                ->with('search', $search);
     }
 
     //Quiz
