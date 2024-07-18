@@ -41,10 +41,14 @@ class HomeController extends Controller
         $all_categories = [];
 
         foreach ($categories as $category) {
-            if($category->user_id == Auth::id() || $category->user->isFollowed() || $category->isLiked()) {
-                $all_categories[] = $category;
+            
+            if($category->user_id){
+                if($category->user_id == Auth::id() || $category->user->isFollowed() || $category->isLiked()) {
+                    $all_categories[] = $category;
+                }
             }
         }
+
 
         return $all_categories;
     }

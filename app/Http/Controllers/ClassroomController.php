@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Classroom;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,10 +16,12 @@ use Illuminate\Support\Facades\Hash;
 
 class ClassroomController extends Controller
 {
-    private $classroom;
-    public function __construct(Classroom $classroom)
+    private $classroom, $user, $category;
+    public function __construct(Classroom $classroom, User $user, Category $category)
     {
         $this->classroom = $classroom;
+        $this->user = $user;
+        $this->category = $category;
     }
 
     public function index(Request $request)
@@ -54,7 +58,9 @@ class ClassroomController extends Controller
         ]);
 
         $this->classroom->name = $request->name;
-        $this->classroom->image = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));
+        if($request->image){
+            $this->classroom->image = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));
+        }
         $this->classroom->description = $request->description;
         $this->classroom->status_id = $request->status;
         $this->classroom->password = Hash::make($request->password);
@@ -108,20 +114,84 @@ class ClassroomController extends Controller
     }
 
     //Admin
-    public function admin_index() {
-        return view('users.classroom.admin.index');
+    public function admin_index($id, Request $request) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        if(isset($request->password)){
+            if(password_verify($request->password, $classroom->password)){
+                return view('users.classroom.admin.index')
+                        ->with('classroom', $classroom);
+            }else{
+                return redirect()->route('classroom.classroom.show', $classroom)->with('error', 'Password is incorrect');
+            }
+        }
+
+        return view('users.classroom.admin.index')
+                ->with('classroom', $classroom);
     }
 
-    public function admin_edit() {
-        return view('users.classroom.admin.edit');
+    public function admin_edit($id) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        return view('users.classroom.admin.edit')
+                ->with('classroom', $classroom);
     }
 
-    public function admin_category() {
-        return view('users.classroom.admin.category');
+
+
+    public function admin_update(Request $request, $id) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        $classroom->name = $request->name;
+        $classroom->description = $request->description;
+        if($request->image) {
+            $classroom->image = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));
+        }
+        $classroom->status_id = $request->status;
+        $classroom->save();
+
+        return redirect()->route('classroom.admin.index', $classroom);
     }
 
-    public function admin_quiz() {
-        return view('users.classroom.admin.quiz.index');
+    public function admin_delete($id) {
+        $classroom = $this->classroom->findOrFail($id);
+        $classroom->delete();
+
+        return redirect()->route('classroom.classroom.index');
+    }
+
+
+    public function admin_user_delete($id, Request $request) {
+        $classroom = $this->classroom->findOrFail($id);
+        $classroom->userClassroom()->where('user_id', $request->user_id)->delete();
+
+        return redirect()->back();
+    }
+
+    //Admin Category
+    public function admin_category($id) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        return view('users.classroom.admin.category')
+                ->with('classroom', $classroom);
+    }
+
+    public function admin_category_store($id, Request $request) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        $this->category->name = $request->category;
+        $this->category->admin_id = 2;
+        $this->category->classroom_id = $id;
+        $this->category->save();
+
+        return redirect()->route('classroom.admin.category', $classroom);
+    }
+
+    public function admin_quiz($id) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        return view('users.classroom.admin.quiz.index')
+                ->with('classroom', $classroom);
     }
 
     public function admin_quiz_create(Request $request) {

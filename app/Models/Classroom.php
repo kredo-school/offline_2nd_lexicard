@@ -12,7 +12,7 @@ class Classroom extends Model
 
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Category::class, 'classroom_id');
     }
 
     public function userClassroom()

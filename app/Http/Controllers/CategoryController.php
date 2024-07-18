@@ -29,7 +29,9 @@ class CategoryController extends Controller
         $followed_ids = $this->follow->where('follower_id', $user_id)->pluck('following_id');
         $liked_ids = $this->like->where('user_id', $user_id)->pluck('category_id');
 
-        $categories = $this->category->where('user_id', '!=', $user_id)
+
+        $categories = $this->category->where('admin_id', 1)
+                                    ->where('user_id', '!=', $user_id)
                                     ->whereNotIn('user_id', $followed_ids)
                                     ->whereNotIn('id', $liked_ids)
                                     ->get();
