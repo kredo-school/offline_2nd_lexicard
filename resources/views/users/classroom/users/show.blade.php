@@ -42,11 +42,9 @@
             @forelse($classroom->categories as $category)
                 <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                     <div class="col-4">
-                        {{-- if the category is from other user, it will display avatar and username --}}
-                        <p class="text-second fs-5"><i class="fa-solid fa-circle-user fs-3"></i> Username</p>
                     </div>
                     <div class="col-4 text-center">
-                        <a href="{{ route('category.category.index') }}" class="text-second text-decoration-none fw-bold fs-3">TOEIC</a>
+                        <a href="{{ route('category.category.index') }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
                     </div>
                     <div class="col-4 justify-content-end d-flex">
                         <p class="text-second text-end"><i class="fa-regular fa-heart"></i>  0</p>
@@ -73,7 +71,7 @@
                 </ul>
             </form>
             {{-- Admin --}}
-            <button type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3" data-bs-toggle="modal" data-bs-target="#adminPasswordModal">
+            <button type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3" data-bs-toggle="modal" data-bs-target="#adminPasswordModal-{{ $classroom->id }}">
                 Admin
             </button>
         </div>
@@ -83,17 +81,17 @@
 </div>
 
 {{-- Admin Password Modal --}}
-<div class="modal fade" id="adminPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="adminPasswordModal-{{ $classroom->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header justify-content-center">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Enter the Password</h1>
         </div>
         <div class="modal-body">
-          <form action="{{ route('classroom.admin.index') }}" method="post" class="w-75 m-auto">
+          <form action="{{ route('classroom.admin.index', $classroom->id) }}" method="post" class="w-75 m-auto">
             @csrf
             @method('GET')
-            <input type="text" name="category" class="form-control my-4">
+            <input type="text" name="password" class="form-control my-4">
             <div class="row justify-content-between my-4">
                 <div class="col-5">
                     <button type="button" class="btn btn-cancel w-100" data-bs-dismiss="modal">Close</button>

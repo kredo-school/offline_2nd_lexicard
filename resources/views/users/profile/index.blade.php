@@ -66,7 +66,7 @@
             <p class="text-yellow bg-second text-center p-2 mx-2 fs-5">My Class</p>
             @for($i=0; $i<3; $i++)
                 <div class="mb-3">
-                    <a href="{{ route('classroom.classroom.show') }}" class="card m-2 shadow-sm p-3 rounded text-start text-decoration-none">
+                    <a href="" class="card m-2 shadow-sm p-3 rounded text-start text-decoration-none">
                         <img src="{{ asset('storage/images/classroom.png') }}" alt="" class="logo-lg">
                         <p class="text-second fs-5 my-2">TOEIC class</p>
                         <p class="mb-2">Let's get high score on the TOEIC</p>

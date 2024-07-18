@@ -90,9 +90,9 @@
         @if (\Route::is('classroom.admin.*'))
             <nav class="navbar navbar-expand-lg bg-second text-yellow">
                 <div class="container-fluid d-flex">
-                    <a class="navbar-brand {{ \Route::is('classroom.admin.index')?'text-yellow':'text-white' }} m-0 w-100 text-center border-end border-yellow" href="{{ route('classroom.admin.index') }}">Home</a>
-                    <a class="navbar-brand {{ \Route::is('classroom.admin.category')?'text-yellow':'text-white' }} m-0 w-100 text-center border-end border-yellow" href="{{ route('classroom.admin.category') }}">Category</a>
-                    <a class="navbar-brand {{ \Route::is('classroom.admin.quiz')?'text-yellow':'text-white' }} m-0 w-100 text-center" href="{{ route('classroom.admin.quiz') }}">Quiz</a>
+                    <a class="navbar-brand {{ \Route::is('classroom.admin.index', $classroom->id)?'text-yellow':'text-white' }} m-0 w-100 text-center border-end border-yellow" href="{{ route('classroom.admin.index', $classroom->id) }}">Home</a>
+                    <a class="navbar-brand {{ \Route::is('classroom.admin.category', $classroom->id)?'text-yellow':'text-white' }} m-0 w-100 text-center border-end border-yellow" href="{{ route('classroom.admin.category', $classroom->id) }}">Category</a>
+                    <a class="navbar-brand {{ \Route::is('classroom.admin.quiz', $classroom->id)?'text-yellow':'text-white' }} m-0 w-100 text-center" href="{{ route('classroom.admin.quiz', $classroom->id) }}">Quiz</a>
                 </div>
             </nav>
         @endif
