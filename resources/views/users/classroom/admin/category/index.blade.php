@@ -6,17 +6,32 @@
     {{-- category list --}}
         <div class="col-8">
             @forelse($classroom->categories as $category)
-                <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
-                    <div class="col-4">
-                    </div>
-                    <div class="col-4 text-center">
-                        <a href="{{ route('category.category.index') }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
-                    </div>
-                    <div class="col-4 justify-content-end d-flex">
-                        <p class="text-second text-end"><i class="fa-regular fa-heart"></i>  0</p>
-                        <p class="text-second text-end ms-3">30  Words</p>
-                    </div>
+            <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
+                <div class="col-4">
                 </div>
+                <div class="col-4 text-center">
+                    <a href="{{ route('classroom.admin.category.show', $category->id) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
+                </div>
+                <div class="col-2 justify-content-end d-flex align-items-center">
+                    @if($category->isliked())
+                        <form action="{{ route('like.destroy', $category->id) }}" method="post" class="mb-0 me-2">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn p-0 text-danger"><i class="fa-solid fa-heart"></i></button>
+                        </form>
+                    @else
+                        <form action="{{ route('like.store') }}" method="post" class="mb-0 me-2">
+                            @csrf
+                            <input type="hidden" value="{{ $category->id }}" name="category_id">
+                            <button type="submit" class="btn p-0 text-second"><i class="fa-regular fa-heart"></i></button>
+                        </form>
+                    @endif
+                    <p class="text-second">{{ $category->like->count() }}</p>
+                </div>
+                <div class="col-2 justify-content-end d-flex align-items-center">
+                    <p class="text-second text-end ms-3">{{ $category->categoryWord->count() }}  Words</p>
+                </div>
+            </div>
             @empty
                 <p class="text-second text-center p-5">No categories yet.</p>
             @endforelse
