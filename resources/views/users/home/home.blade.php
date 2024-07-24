@@ -8,9 +8,13 @@
             @foreach($categories as $category)
                 <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                     <div class="col-4">
-                        @if($category->user_id == Auth::id())
+                        @if($category->classroom_id == null)
+                            @if($category->user_id == Auth::id())
+                            @else
+                                <a href="{{ route('profile.profile.show', $category->user->id) }}" class="text-second fs-5 text-decoration-none"><i class="fa-solid fa-circle-user fs-3"></i> {{ $category->user->name }}</a>
+                            @endif
                         @else
-                            <a href="{{ route('profile.profile.show', $category->user->id) }}" class="text-second fs-5 text-decoration-none"><i class="fa-solid fa-circle-user fs-3"></i> {{ $category->user->name }}</a>
+                            <a href="{{ route('profile.profile.show', $category->classroom->id) }}" class="text-second fs-5 text-decoration-none"><i class="fa-solid fa-graduation-cap"></i> {{ $category->classroom->name }}</a>
                         @endif
                     </div>
                     <div class="col-4 text-center">

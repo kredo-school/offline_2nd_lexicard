@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Word;
 use App\Models\Category;
+use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,20 +16,13 @@ use Flow\JSONPath\JSONPath;
 
 class WordController extends Controller
 {
-    private $word, $category;
-    public function __construct(Word $word, Category $category)
+    private $word, $category, $classroom;
+    public function __construct(Word $word, Category $category, Classroom $classroom)
     {
         $this->word = $word;
         $this->category = $category;
+        $this->classroom = $classroom;
     }
-
-
-    public function index()
-    {
-        //
-    }
-
-
 
     public function create(Request $request)
     {
@@ -150,8 +144,10 @@ class WordController extends Controller
 
         if($request->page == 0){
             return redirect()->route('category.category.show', $request->category);
-        }else{
+        }elseif($request->page == 1){
             return redirect()->route('home');
+        }else{
+            return redirect()->route('classroom.admin.category.show', $request->category);
         }
 
     }
@@ -175,7 +171,6 @@ class WordController extends Controller
                 ]);
 
                 if($request->category){
-
                     $word->categoryWord()->create([
                         "category_id" => $request->category,
                     ]);
@@ -183,15 +178,17 @@ class WordController extends Controller
             }
         }
 
+        $category = $this->category->findOrFail($request->category);
+        if($category->classroom_id == null){
+            return redirect()->route('category.category.show', $request->category);
+        }else{
+            return redirect()->route('classroom.admin.category.show', $request->category);
+        }
 
 
 
-        return redirect()->route('category.category.show', $request->category);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Word $word)
     {
         $example = $this->word->where('id', $word->id)->first()->example;
@@ -204,17 +201,6 @@ class WordController extends Controller
                 ->with('example', $example);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Word $word)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Word $word)
     {
         $word = $this->word->findOrFail($word->id);
@@ -225,19 +211,30 @@ class WordController extends Controller
         $word->save();
 
         $category_id = $word->categoryWord()->first()->category_id;
+        $category = $this->category->findOrFail($category_id);
 
-        return redirect()->route('category.category.show', $category_id);
+        if($category->classroom_id == null){
+            return redirect()->route('category.category.show', $category_id);
+        }else{
+            return redirect()->route('classroom.admin.category.show', $category->id);
+        }
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Word $word)
     {
         $word = $this->word->findOrFail($word->id);
         $category_id = $word->categoryWord()->first()->category_id;
         $word->delete();
 
-        return redirect()->route('category.category.show', $category_id);
+
+        $category = $this->category->findOrFail($category_id);
+
+        if($category->classroom_id == null){
+            return redirect()->route('category.category.show', $category_id);
+        }else{
+            return redirect()->route('classroom.admin.category.show', $category->id);
+        }
+
     }
 }

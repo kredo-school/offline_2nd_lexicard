@@ -49,12 +49,20 @@ Route::group(["middleware" => "auth"], function() {
         #Search
         Route::get('/search', [ClassroomController::class,'search'])->name('search');
 
+        #Category
+        Route::get('/category/{id}', [ClassroomController::class, 'category'])->name('category');
+
+        #Word
+        Route::get('/word/show/{id}', [ClassroomController::class, 'word_show'])->name('word.show');
+
         #Join
         Route::get('/join/{id}', [ClassroomController::class, 'join'])->name('join');
         Route::get('/leave/{id}', [ClassroomController::class, 'leave'])->name('leave');
 
         #Quiz
-        Route::get('/classroom/quiz', [ClassroomController::class, 'quiz'])->name('quiz.index');
+        Route::get('/quiz/{id}', [ClassroomController::class, 'quiz'])->name('quiz.index');
+        Route::get('/quiz/{quiz_title_id}/show', [ClassroomController::class, 'quiz_show'])->name('quiz.show');
+        Route::get('/quiz/run/{num}', [ClassroomController::class, 'quiz_run'])->name('quiz.run');
 
         #Admin
         Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
@@ -69,11 +77,23 @@ Route::group(["middleware" => "auth"], function() {
             #Category
             Route::get('/category/{id}', [ClassroomController::class, 'admin_category'])->name('category');
             Route::get('/category/store/{id}', [ClassroomController::class, 'admin_category_store'])->name('category.store');
+            Route::get('/category/show/{id}', [ClassroomController::class, 'admin_category_show'])->name('category.show');
+            Route::delete('/category/{id}/delete', [ClassroomController::class, 'admin_category_delete'])->name('category.delete');
+
+            #Word
+            Route::get('/word/show/{id}', [ClassroomController::class, 'admin_word_show'])->name('word.show');
+
 
             #Quiz
             Route::get('/quiz/{id}', [ClassroomController::class, 'admin_quiz'])->name('quiz');
-            Route::get('/quiz/create', [ClassroomController::class, 'admin_quiz_create'])->name('quiz.create');
-            Route::get('/quiz/show', [ClassroomController::class, 'admin_quiz_show'])->name('quiz.show');
+            Route::get('/quiz/{id}/create', [ClassroomController::class, 'admin_quiz_create'])->name('quiz.create');
+            Route::post('/quiz/{id}/store', [ClassroomController::class, 'admin_quiz_store'])->name('quiz.store');
+            Route::get('/quiz/{id}/show', [ClassroomController::class, 'admin_quiz_show'])->name('quiz.show');
+            Route::get('/quiz/{id}/add', [ClassroomController::class, 'admin_quiz_add'])->name('quiz.add');
+            Route::patch('/quiz/{id}/update', [ClassroomController::class, 'admin_quiz_update'])->name('quiz.update');
+            Route::delete('/quiz/{id}/delete', [ClassroomController::class, 'admin_quiz_delete'])->name('quiz.delete');
+            Route::patch('/quiz/update/{question_id}', [ClassroomController::class, 'admin_quiz_question_update'])->name('quiz.question.update');
+            Route::delete('/quiz/question/{question_id}/delete', [ClassroomController::class, 'admin_quiz_question_delete'])->name('quiz.question.delete');
         });
     });
 

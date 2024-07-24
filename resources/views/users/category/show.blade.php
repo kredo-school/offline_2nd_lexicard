@@ -9,7 +9,13 @@
         {{-- back --}}
         <div class="col-2 text-center">
             @foreach($word->categoryWord as $pivot)
-            <a href="{{ route('category.category.show', $pivot->category_id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+                @if (\Route::is('classroom.admin.*'))
+                    <a href="{{ route('classroom.admin.category.show', $pivot->category_id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+                @elseif (\Route::is('classroom.*'))
+                    <a href="{{ route('classroom.category', $pivot->category_id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+                @else
+                    <a href="{{ route('category.category.show', $pivot->category_id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+                @endif
             @endforeach
         </div>
         {{-- like --}}
@@ -21,7 +27,7 @@
         </div>
         {{-- edit --}}
         <div class="col-2 text-end">
-            @if($word->user_id == Auth::id())
+            @if($word->user_id == Auth::id() || \Route::is('classroom.admin.*'))
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editWord-{{ $word->id }}">
                 <i class="fa-solid fa-pen-to-square fs-2 text-second"></i>
                 <p class="fs-small text-second">EDIT</p>
@@ -30,7 +36,7 @@
         </div>
         {{-- delete --}}
         <div class="col-2 text-center">
-            @if($word->user_id == Auth::id())
+            @if($word->user_id == Auth::id() || \Route::is('classroom.admin.*'))
             <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#deleteWord-{{ $word->id }}">
                 <i class="fa-solid fa-trash fs-2 text-danger"></i>
                 <p class="fs-small text-second">DELETE</p>

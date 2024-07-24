@@ -14,16 +14,23 @@
     </div>
 
     <div class="col-8 m-auto">
-        @for($i=0;$i< 10;$i++)
+        @forelse($classroom->quizTitles as $quizTitle)
             <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                 <div class="col-9 text-center">
-                    <a href="{{ route('classroom.admin.quiz.show') }}" class="text-second text-decoration-none fw-bold fs-3">TOEIC</a>
+                    <form action="{{ route('classroom.admin.quiz.show', $quizTitle->id) }}" method="post">
+                        @csrf
+                        @method('GET')
+                        {{-- <input type="hidden" name="title_id" value="{{ $quizTitle->id }}"> --}}
+                        <button type="submit" class="btn text-second text-decoration-none fw-bold fs-3">{{ $quizTitle->title }}</button>
+                    </form>
                 </div>
                 <div class="col-3 justify-content-end d-flex">
-                    <p class="text-second fw-semibold me-4">30 Questions</p>
+                    <p class="text-second fw-semibold me-4">{{ $quizTitle->quizzes->count() }} Questions</p>
                 </div>
             </div>
-        @endfor
+        @empty
+            <p class="text-second text-center p-5">No quiz titles yet.</p>
+        @endforelse
     </div>
 </div>
 
@@ -35,7 +42,7 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">Create New Category</h1>
         </div>
         <div class="modal-body">
-          <form action="{{ route('classroom.admin.quiz.create') }}" method="post" class="w-75 m-auto">
+          <form action="{{ route('classroom.admin.quiz.create', $classroom->id) }}" method="post" class="w-75 m-auto">
             @csrf
             @method('GET')
             <div class="row align-items-center">
