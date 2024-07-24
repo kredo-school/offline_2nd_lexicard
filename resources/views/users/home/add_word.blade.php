@@ -44,8 +44,14 @@
         @if(isset($current_category))
             <div class="col-5 p-0 m-auto">
                 <input type="hidden" name="category" value="{{ $current_category->id }}">
-                <input type="hidden" name="page" value="0">
-                <button type="submit" class="btn btn-yellow w-100">Add to {{ $current_category->name }} Category</button>
+                @if($current_category->classroom_id == null)
+                    <input type="hidden" name="page" value="0">
+                    <button type="submit" class="btn btn-yellow w-100">Add to {{ $current_category->name }} Category</button>
+                @else
+                    <input type="hidden" name="page" value="2">
+                    <button type="submit" class="btn btn-yellow w-100">Add to {{ $current_category->name }} Category</button>
+                @endif
+
             </div>
         @else
             <p class="fs-small p-2 w-75 m-auto">Choose category if you want to add to the category</p>

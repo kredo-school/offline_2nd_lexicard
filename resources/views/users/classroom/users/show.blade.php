@@ -44,11 +44,26 @@
                     <div class="col-4">
                     </div>
                     <div class="col-4 text-center">
-                        <a href="{{ route('category.category.index') }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
+                        <a href="{{ route('classroom.category', $category->id) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
                     </div>
-                    <div class="col-4 justify-content-end d-flex">
-                        <p class="text-second text-end"><i class="fa-regular fa-heart"></i>  0</p>
-                        <p class="text-second text-end ms-3">30  Words</p>
+                    <div class="col-2 justify-content-end d-flex align-items-center">
+                        @if($category->isliked())
+                            <form action="{{ route('like.destroy', $category->id) }}" method="post" class="mb-0 me-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn p-0 text-danger"><i class="fa-solid fa-heart"></i></button>
+                            </form>
+                        @else
+                            <form action="{{ route('like.store') }}" method="post" class="mb-0 me-2">
+                                @csrf
+                                <input type="hidden" value="{{ $category->id }}" name="category_id">
+                                <button type="submit" class="btn p-0 text-second"><i class="fa-regular fa-heart"></i></button>
+                            </form>
+                        @endif
+                        <p class="text-second">{{ $category->like->count() }}</p>
+                    </div>
+                    <div class="col-2 justify-content-end d-flex align-items-center">
+                        <p class="text-second text-end ms-3">{{ $category->categoryWord->count() }}  Words</p>
                     </div>
                 </div>
             @empty
@@ -58,7 +73,7 @@
     {{-- side bar --}}
         <div class="col-4">
             {{-- Quiz --}}
-            <a href="{{ route('classroom.quiz.index') }}" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3">
+            <a href="{{ route('classroom.quiz.index', $classroom->id) }}" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3">
                 Quiz
             </a>
             {{-- Sort Category --}}

@@ -23,4 +23,9 @@ class Classroom extends Model
     public function isJoined(){
         return $this->userClassroom()->where('user_id', Auth::id())->exists();
     }
+
+    public function quizTitles()
+    {
+        return $this->hasMany(QuizTitle::class, 'class_id');
+    }
 }
