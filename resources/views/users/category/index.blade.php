@@ -8,7 +8,9 @@
     <div class="row w-100 m-auto align-items-center">
         {{-- back --}}
         <div class="col-2 text-center">
-            @if (\Route::is('classroom.admin.*'))
+            @if(\Route::is('profile.*'))
+                <a href="{{ route('profile.index', $category->user_id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+            @elseif (\Route::is('classroom.admin.*'))
                 <a href="{{ route('classroom.admin.category', $classroom->id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
             @elseif (\Route::is('classroom.*'))
                 <a href="{{ route('classroom.classroom.show', $category->classroom) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
@@ -112,7 +114,14 @@
     <div class="my-5">
         @forelse($category->categoryWord as $word)
             <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
-                @if (\Route::is('classroom.admin.*'))
+                @if(\Route::is('profile.*'))
+                    <div class="col-4">
+                        <a href="{{ route('profile.word', $word->word->id) }}" class="text-second text-decoration-none fs-3">{{ $word->word->word }}</a>
+                    </div>
+                    <div class="col-6">
+                        <a href="{{ route('profile.word', $word->word->id) }}" class="text-second text-decoration-none fw-semibold fs-3">{{ $word->word->meaning }}</a>
+                    </div>
+                @elseif (\Route::is('classroom.admin.*'))
                     <div class="col-4">
                         <a href="{{ route('classroom.admin.word.show', $word->word->id) }}" class="text-second text-decoration-none fs-3">{{ $word->word->word }}</a>
                     </div>

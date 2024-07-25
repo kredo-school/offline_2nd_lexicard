@@ -5,12 +5,12 @@
 @section('content')
 
 <div class="container m-auto">
-    <form action="{{ route('profile.profile.index') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('profile.profile.update', $user->id) }}" method="post" enctype="multipart/form-data">
         @csrf
-        @method('GET')
+        @method('PATCH')
         <div class="row justify-content-between w-75 m-auto align-items-center">
             <div class="col-1 text-center">
-                <a href="{{ route('profile.profile.index') }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+                <a href="{{ route('profile.index', $user->id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
             </div>
             <div class="col-8">
                 <p class="text-second bg-yellow p-3 my-5 text-center w-50 m-auto fs-4">Edit Profile</p>
@@ -27,7 +27,7 @@
                         <p class="text-second fs-4">Username: </p>
                     </div>
                     <div class="col-7">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" value="{{ $user->name }}" name="name">
                     </div>
                 </div>
                 <div class="row my-5">
@@ -35,13 +35,17 @@
                         <p class="text-second fs-4">Email: </p>
                     </div>
                     <div class="col-7">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" value="{{ $user->email }}" name="email">
                     </div>
                 </div>
 
-                <div class="d-flex w-50">
-                    <p class="text-second fs-4 me-3">Image: </p>
-                    <input type="file" name="" class="form-control" id="">
+                <div class="row my-5">
+                    <div class="col-5">
+                        <p class="text-second fs-4">Image: </p>
+                    </div>
+                    <div class="col-7">
+                        <input type="file" name="image" class="form-control" id="">
+                    </div>
                 </div>
             </div>
         </div>

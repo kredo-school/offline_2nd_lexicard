@@ -11,10 +11,14 @@
                         @if($category->classroom_id == null)
                             @if($category->user_id == Auth::id())
                             @else
-                                <a href="{{ route('profile.profile.show', $category->user->id) }}" class="text-second fs-5 text-decoration-none"><i class="fa-solid fa-circle-user fs-3"></i> {{ $category->user->name }}</a>
+                                @if($category->user->image)
+                                    <a href="{{ route('profile.profile.show', $category->user->id) }}" class="text-second fs-4 text-decoration-none d-flex align-items-center"><img src="{{ $category->user->image }}" alt="" class="rounded-circle avatar-sm me-2">{{ $category->user->name }}</a>
+                                @else
+                                    <a href="{{ route('profile.profile.show', $category->user->id) }}" class="text-second fs-4 text-decoration-none"><i class="fa-solid fa-circle-user fs-2 me-2"></i>{{ $category->user->name }}</a>
+                                @endif
                             @endif
                         @else
-                            <a href="{{ route('profile.profile.show', $category->classroom->id) }}" class="text-second fs-5 text-decoration-none"><i class="fa-solid fa-graduation-cap"></i> {{ $category->classroom->name }}</a>
+                            <a href="{{ route('profile.profile.show', $category->classroom->id) }}" class="text-second fs-4 text-decoration-none"><i class="fa-solid fa-graduation-cap"></i> {{ $category->classroom->name }}</a>
                         @endif
                     </div>
                     <div class="col-4 text-center">
