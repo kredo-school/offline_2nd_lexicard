@@ -66,7 +66,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a href="{{ route('profile.profile.index') }}" class="dropdown-item">
+                                    <a href="{{ route('profile.index', Auth::id()) }}" class="dropdown-item">
                                         {{ __('Profile') }}
                                     </a>
 
@@ -126,7 +126,7 @@
                                     Classrooms
                                 </a>
 
-                                <a href="{{ route('profile.profile.index') }}" class="nav-link px-5 text-yellow">
+                                <a href="{{ route('profile.index', Auth::id()) }}" class="nav-link px-5 text-yellow">
                                     Profile
                                 </a>
                             </li>

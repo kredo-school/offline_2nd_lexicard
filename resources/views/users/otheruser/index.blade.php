@@ -48,8 +48,11 @@
             @foreach($categories as $category)
                 <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                     <div class="col-4">
-                        {{-- if the category is from other user, it will display avatar and username --}}
-                        <a href="{{ route('profile.profile.show', $category->user->id) }}" class="text-second fs-5 text-decoration-none"><i class="fa-solid fa-circle-user fs-3"></i> {{ $category->user->name }}</a>
+                        @if($category->user->image)
+                            <a href="{{ route('profile.profile.show', $category->user->id) }}" class="text-second fs-4 text-decoration-none d-flex align-items-center"><img src="{{ $category->user->image }}" alt="" class="rounded-circle avatar-sm me-2">{{ $category->user->name }}</a>
+                        @else
+                            <a href="{{ route('profile.profile.show', $category->user->id) }}" class="text-second fs-4 text-decoration-none"><i class="fa-solid fa-circle-user fs-2 me-2"></i>{{ $category->user->name }}</a>
+                        @endif
                     </div>
                     <div class="col-4 text-center">
                         <a href="{{ route('category.category.show', $category) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>

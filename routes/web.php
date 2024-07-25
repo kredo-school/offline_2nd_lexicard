@@ -98,10 +98,14 @@ Route::group(["middleware" => "auth"], function() {
     });
 
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function(){
-        Route::get('/profile/follow', [ProfileController::class, 'follow'])->name('follow');
-        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/{id}', [ProfileController::class, 'index'])->name('index');
+        Route::get('/follow/{id}', [ProfileController::class, 'follow'])->name('follow');
+        Route::get('/edit/{id}', [ProfileController::class, 'edit'])->name('edit');
 
-        Route::resource('/profile', ProfileController::class)->except('edit');
+        Route::get('/category/{category_id}', [ProfileController::class, 'category'])->name('category');
+        Route::get('/word/{word_id}', [ProfileController::class, 'word'])->name('word');
+
+        Route::resource('/profile', ProfileController::class)->except('index', 'edit');
     });
 
     Route::resource('/follow', FollowController::class);

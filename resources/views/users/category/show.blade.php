@@ -9,7 +9,9 @@
         {{-- back --}}
         <div class="col-2 text-center">
             @foreach($word->categoryWord as $pivot)
-                @if (\Route::is('classroom.admin.*'))
+                @if (\Route::is('profile.*'))
+                    <a href="{{ route('profile.category', $pivot->category_id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
+                @elseif (\Route::is('classroom.admin.*'))
                     <a href="{{ route('classroom.admin.category.show', $pivot->category_id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
                 @elseif (\Route::is('classroom.*'))
                     <a href="{{ route('classroom.category', $pivot->category_id) }}" class="text-decoration-none text-second fs-1"><i class="fa-solid fa-angle-left"></i></a>
