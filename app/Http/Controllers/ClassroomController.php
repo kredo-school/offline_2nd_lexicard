@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Classroom;
+use App\Models\Like;
 use App\Models\Quiz;
 use App\Models\QuizTitle;
 use App\Models\User;
@@ -17,14 +18,15 @@ use Illuminate\Support\Facades\Hash;
 
 class ClassroomController extends Controller
 {
-    private $classroom, $category, $quiz, $quizTitle, $word;
-    public function __construct(Classroom $classroom, Category $category, Word $word ,Quiz $quiz, QuizTitle $quizTitle)
+    private $classroom, $category, $quiz, $quizTitle, $word, $like;
+    public function __construct(Classroom $classroom, Category $category, Word $word ,Quiz $quiz, QuizTitle $quizTitle, Like $like)
     {
         $this->classroom = $classroom;
         $this->category = $category;
         $this->word = $word;
         $this->quiz = $quiz;
         $this->quizTitle = $quizTitle;
+        $this->like = $like;
     }
 
     public function index(Request $request)
@@ -80,6 +82,33 @@ class ClassroomController extends Controller
 
         return view('users.classroom.users.show')
                 ->with('classroom', $classroom);
+    }
+
+    public function liked($id)
+    {
+        $classroom = $this->classroom->findOrFail($id);
+
+        $liked_ids = $this->like->where('user_id', Auth::id())->pluck('category_id');
+        $categories = $classroom->categories()
+                                ->whereHas('like', function($query) use ($liked_ids){
+                                    $query->whereIn('category_id', $liked_ids);
+                                })
+                                ->get();
+
+
+        return view('users.classroom.users.show')
+                ->with('classroom', $classroom)
+                ->with('categories', $categories);
+    }
+
+    public function popular($id)
+    {
+        $classroom = $this->classroom->findOrFail($id);
+        $categories = $classroom->categories()->withCount('like')->orderBy('like_count', 'desc')->get();
+
+        return view('users.classroom.users.show')
+                ->with('classroom', $classroom)
+                ->with('categories', $categories);
     }
 
     //Category

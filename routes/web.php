@@ -15,6 +15,10 @@ use App\Http\Controllers\ProfileController;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/my_category', [App\Http\Controllers\HomeController::class, 'my_category'])->name('home.my_category');
+Route::get('/liked', [App\Http\Controllers\HomeController::class, 'liked'])->name('home.liked');
+Route::get('/popular', [App\Http\Controllers\HomeController::class, 'popular'])->name('home.popular');
+Route::get('/otheruser', [App\Http\Controllers\HomeController::class, 'otheruser'])->name('home.other.user');
 
 Route::group(["middleware" => "auth"], function() {
 
@@ -23,6 +27,10 @@ Route::group(["middleware" => "auth"], function() {
 
         #Other User
         Route::get('/otheruser/category', [CategoryController::class, 'otheruser_index'])->name('otheruser.index');
+        Route::get('/otheruser/category/popular', [CategoryController::class, 'popular'])->name('otheruser.popular');
+        Route::get('/otheruser/category/recent', [CategoryController::class,'recent'])->name('otheruser.recent');
+        Route::get('/otheruser/category/search/user', [CategoryController::class,'search_user'])->name('otheruser.search_user');
+        Route::get('/otheruser/category/search/category', [CategoryController::class,'search_category'])->name('otheruser.search_category');
 
     });
 
@@ -45,6 +53,8 @@ Route::group(["middleware" => "auth"], function() {
 
     Route::group(['prefix' => 'classroom', 'as' => 'classroom.'], function(){
         Route::resource('/classroom', ClassroomController::class);
+        Route::get('/liked/{id}', [ClassroomController::class, 'liked'])->name('liked');
+        Route::get('/popular/{id}', [ClassroomController::class, 'popular'])->name('popular');
 
         #Search
         Route::get('/search', [ClassroomController::class,'search'])->name('search');
