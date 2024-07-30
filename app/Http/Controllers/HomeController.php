@@ -29,31 +29,89 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = $this->all_categories();
+        $all_categories = $this->category->latest()->get();
+
+        $categories = [];
+
+        foreach ($all_categories as $category) {
+
+            if($category->user_id){
+                if($category->user_id == Auth::id() || $category->user->isFollowed() || $category->isLiked()) {
+                    $categories[] = $category;
+                }
+            }else{
+                if($category->isLiked()) {
+                    $categories[] = $category;
+                }
+            }
+        }
 
         return view('users.home.home')
                 ->with('categories', $categories);
     }
 
-    public function all_categories() {
-        $categories = $this->category->latest()->get();
+    public function my_category()
+    {
+        $categories = $this->category->where('user_id', Auth::id())->latest()->get();
 
-        $all_categories = [];
+        return view('users.home.home')
+                ->with('categories', $categories);
+    }
 
-        foreach ($categories as $category) {
+    public function liked()
+    {
+        $all_categories = $this->category->latest()->get();
+
+        $categories = [];
+
+        foreach ($all_categories as $category) {
 
             if($category->user_id){
-                if($category->user_id == Auth::id() || $category->user->isFollowed() || $category->isLiked()) {
-                    $all_categories[] = $category;
+                if($category->isLiked()) {
+                    $categories[] = $category;
                 }
             }else{
                 if($category->isLiked()) {
-                    $all_categories[] = $category;
+                    $categories[] = $category;
+                }
+            }
+
+        }
+
+        return view('users.home.home')
+                ->with('categories', $categories);
+    }
+
+    public function popular()
+    {
+        $all_categories = $this->category->withCount('like')->orderBy('like_count', 'desc')->get();
+
+        $categories = [];
+
+        foreach ($all_categories as $category) {
+
+            if($category->user_id){
+                if($category->user_id == Auth::id() || $category->user->isFollowed() || $category->isLiked()) {
+                    $categories[] = $category;
+                }
+            }else{
+                if($category->isLiked()) {
+                    $categories[] = $category;
                 }
             }
         }
 
 
-        return $all_categories;
+        return view('users.home.home')
+                ->with('categories', $categories);
     }
+
+    public function otheruser(Request $request)
+    {
+        $categories = $this->category->where('user_id', $request->other_user)->latest()->get();
+
+        return view('users.home.home')
+                ->with('categories', $categories);
+    }
+
 }

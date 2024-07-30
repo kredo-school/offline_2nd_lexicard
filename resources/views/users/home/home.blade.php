@@ -63,24 +63,31 @@
                 Create New Category
             </button>
             {{-- Sort Category --}}
-            <form action="#" method="post" class="my-3 border border-second text-center">
+            <div class="my-3 border border-second text-center">
                 <p class="bg-second text-yellow fs-3 p-2">Sort</p>
-                <ul class="list-unstyled">
-                    <button type="submit" name="all" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">All</button>
-                    <button type="submit" name="my_category" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">My Category</button>
-                    <button type="submit" name="liked" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">Liked</button>
-                    <button type="submit" name="popular" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">Popular</button>
-                    <div class="input-group mb-3 m-auto mt-4 w-75">
-                        <select class="form-select border rounded-start-4 text-second fs-5 text-center" name="other_user">
-                          <option hidden>Other User</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
-                        <button class="btn btn-outline-second border rounded-end-4 text-second fs-5" type="button">Button</button>
-                    </div>
+                <ul class="list-group">
+                    <a href="{{ route('home') }}" class="list-group-item btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second m-auto {{ \Route::is('home')?'active':'' }}">ALL</a>
+                    <a href="{{ route('home.my_category') }}" class="list-group-item btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second m-auto {{ \Route::is('home.my_category')?'active':'' }}">My Category</a>
+                    <a href="{{ route('home.liked') }}" class="list-group-item btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second m-auto {{ \Route::is('home.liked')?'active':'' }}">Liked</a>
+                    <a href="{{ route('home.popular') }}" class="list-group-item btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second m-auto {{ \Route::is('home.popular')?'active':'' }}">Popular</a>
+
+                    <form action="{{ route('home.other.user') }}" method="post">
+                        @csrf
+                        @method('GET')
+                        <div class="input-group mb-3 m-auto mt-4 w-75">
+                            <select class="form-select border rounded-start-4 text-second fs-5 text-center" name="other_user">
+                                <option hidden>Other User</option>
+                                @forelse (Auth::user()->following as $following)
+                                    <option value="{{ $following->following->id }}">{{ $following->following->name }}</option>
+                                @empty
+
+                                @endforelse
+                            </select>
+                            <button class="btn border rounded-end-4 text-second fs-5 {{ \Route::is('home.other.user')?'btn-yellow':'btn-outline-second' }}" type="submit">Button</button>
+                        </div>
+                    </form>
                 </ul>
-            </form>
+            </div>
         </div>
     </div>
 

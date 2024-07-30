@@ -27,6 +27,10 @@ p {
     background-color: #586E72 !important;
 }
 
+.list-group-item.active {
+    background-color: #FBF27C !important;
+}
+
 /* btn */
 .btn-yellow {
     --bs-btn-color: #586E72 !important;

@@ -11,31 +11,31 @@
                 <p class="bg-second text-yellow text-center p-2 fs-4">Sort</p>
                 <div class="row justify-content-evenly">
                     <div class="col-5">
-                        <button type="submit" name="liked" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-100 text-second">Most Liked</button>
+                        <a href="{{ route('category.otheruser.popular') }}" class="btn border rounded-4 mt-4 fs-5 w-100 text-second {{ \Route::is('category.otheruser.popular')?'btn-yellow':'btn-outline-second' }}">Most Liked</a>
                     </div>
                     <div class="col-5">
-                        <button type="submit" name="recent" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-100 text-second">Recently Added</button>
+                        <a href="{{ route('category.otheruser.recent') }}" name="recent" class="btn border rounded-4 mt-4 fs-5 w-100 text-second {{ \Route::is('category.otheruser.recent')?'btn-yellow':'btn-outline-second' }}">Recently Added</a>
                     </div>
                 </div>
                 <div class="row justify-content-evenly">
                     <div class="col-5">
-                        <form action="#" method="post" class="my-3">
+                        <form action="{{ route('category.otheruser.search_user') }}" method="post" class="my-3">
                             @csrf
                             @method('GET')
                             <p class="text-second">Search from Username</p>
                             <div class="input-group my-2">
-                                <input type="text" name="word" class="form-control rounded-start-4 p-2">
+                                <input type="text" value="{{ \Route::is('category.otheruser.search_user')? $search_user:'' }}" name="user" class="form-control rounded-start-4 p-2">
                                 <button class="btn btn-search rounded-end-4" type="submit">Search</button>
                             </div>
                         </form>
                     </div>
                     <div class="col-5">
-                        <form action="#" method="post" class="my-3">
+                        <form action="{{ route('category.otheruser.search_category') }}" method="post" class="my-3">
                             @csrf
                             @method('GET')
                             <p class="text-second">Search from Category name</p>
                             <div class="input-group my-2">
-                                <input type="text" name="word" class="form-control rounded-start-4 p-2">
+                                <input type="text" value="{{ \Route::is('category.otheruser.search_category')?$search_category:'' }}" name="category" class="form-control rounded-start-4 p-2">
                                 <button class="btn btn-search rounded-end-4" type="submit">Search</button>
                             </div>
                         </form>

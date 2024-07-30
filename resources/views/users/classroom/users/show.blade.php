@@ -39,36 +39,69 @@
     <div class="row">
     {{-- category list --}}
         <div class="col-8">
-            @forelse($classroom->categories as $category)
-                <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
-                    <div class="col-4">
+            @if(isset($categories))
+                @forelse($categories as $category)
+                    <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
+                        <div class="col-4">
+                        </div>
+                        <div class="col-4 text-center">
+                            <a href="{{ route('classroom.category', $category->id) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
+                        </div>
+                        <div class="col-2 justify-content-end d-flex align-items-center">
+                            @if($category->isliked())
+                                <form action="{{ route('like.destroy', $category->id) }}" method="post" class="mb-0 me-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn p-0 text-danger"><i class="fa-solid fa-heart"></i></button>
+                                </form>
+                            @else
+                                <form action="{{ route('like.store') }}" method="post" class="mb-0 me-2">
+                                    @csrf
+                                    <input type="hidden" value="{{ $category->id }}" name="category_id">
+                                    <button type="submit" class="btn p-0 text-second"><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            @endif
+                            <p class="text-second">{{ $category->like->count() }}</p>
+                        </div>
+                        <div class="col-2 justify-content-end d-flex align-items-center">
+                            <p class="text-second text-end ms-3">{{ $category->categoryWord->count() }}  Words</p>
+                        </div>
                     </div>
-                    <div class="col-4 text-center">
-                        <a href="{{ route('classroom.category', $category->id) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
+                @empty
+                    <p class="text-second text-center p-5">No categories</p>
+                @endforelse
+            @else
+                @forelse($classroom->categories as $category)
+                    <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
+                        <div class="col-4">
+                        </div>
+                        <div class="col-4 text-center">
+                            <a href="{{ route('classroom.category', $category->id) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
+                        </div>
+                        <div class="col-2 justify-content-end d-flex align-items-center">
+                            @if($category->isliked())
+                                <form action="{{ route('like.destroy', $category->id) }}" method="post" class="mb-0 me-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn p-0 text-danger"><i class="fa-solid fa-heart"></i></button>
+                                </form>
+                            @else
+                                <form action="{{ route('like.store') }}" method="post" class="mb-0 me-2">
+                                    @csrf
+                                    <input type="hidden" value="{{ $category->id }}" name="category_id">
+                                    <button type="submit" class="btn p-0 text-second"><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            @endif
+                            <p class="text-second">{{ $category->like->count() }}</p>
+                        </div>
+                        <div class="col-2 justify-content-end d-flex align-items-center">
+                            <p class="text-second text-end ms-3">{{ $category->categoryWord->count() }}  Words</p>
+                        </div>
                     </div>
-                    <div class="col-2 justify-content-end d-flex align-items-center">
-                        @if($category->isliked())
-                            <form action="{{ route('like.destroy', $category->id) }}" method="post" class="mb-0 me-2">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn p-0 text-danger"><i class="fa-solid fa-heart"></i></button>
-                            </form>
-                        @else
-                            <form action="{{ route('like.store') }}" method="post" class="mb-0 me-2">
-                                @csrf
-                                <input type="hidden" value="{{ $category->id }}" name="category_id">
-                                <button type="submit" class="btn p-0 text-second"><i class="fa-regular fa-heart"></i></button>
-                            </form>
-                        @endif
-                        <p class="text-second">{{ $category->like->count() }}</p>
-                    </div>
-                    <div class="col-2 justify-content-end d-flex align-items-center">
-                        <p class="text-second text-end ms-3">{{ $category->categoryWord->count() }}  Words</p>
-                    </div>
-                </div>
-            @empty
-                <p class="text-second text-center p-5">No categories yet.</p>
-            @endforelse
+                @empty
+                    <p class="text-second text-center p-5">No categories yet.</p>
+                @endforelse
+            @endif
         </div>
     {{-- side bar --}}
         <div class="col-4">
@@ -77,14 +110,14 @@
                 Quiz
             </a>
             {{-- Sort Category --}}
-            <form action="#" method="post" class="my-3 border border-second text-center">
+            <div class="my-3 border border-second text-center">
                 <p class="bg-second text-yellow fs-3 p-2">Sort</p>
                 <ul class="list-unstyled">
-                    <button type="submit" name="all" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">All</button>
-                    <button type="submit" name="my_category" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">Liked</button>
-                    <button type="submit" name="liked" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">Popular</button>
+                    <a href="{{ route('classroom.classroom.show', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.classroom.show')?'btn-yellow':'btn-outline-second' }}">All</a>
+                    <a href="{{ route('classroom.liked', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.liked')?'btn-yellow':'btn-outline-second' }}">Liked</a>
+                    <a href="{{ route('classroom.popular', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.popular')?'btn-yellow':'btn-outline-second' }}">Popular</a>
                 </ul>
-            </form>
+            </div>
             {{-- Admin --}}
             <button type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3" data-bs-toggle="modal" data-bs-target="#adminPasswordModal-{{ $classroom->id }}">
                 Admin
