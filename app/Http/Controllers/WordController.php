@@ -31,19 +31,30 @@ class WordController extends Controller
         ]);
 
         $word = $request->word;
-        $meaning = $this->translate($word);
-        $definition = $this->def_and_exa($word)['definition'];
-        $example_with_it = $this->def_and_exa($word)['example'];
 
-        if($definition == null || $example_with_it == null){
-            return redirect()->back()->with('error', 'The word '. $word .' not found.');
+        $in_table_word = $this->word->where('word', $word)->first();
+        if($in_table_word) {
+            $meaning = $in_table_word->meaning;
+            $definition = $in_table_word->definition;
+            $example_with_it = $in_table_word->example;
+
+            $example = str_replace('{it}', '', $example_with_it);
+            $example = str_replace('{/it}', '', $example);
+        }else{
+            $meaning = $this->translate($word);
+            $definition = $this->def_and_exa($word)['definition'];
+            $example_with_it = $this->def_and_exa($word)['example'];
+
+            if($definition == null || $example_with_it == null){
+                return redirect()->back()->with('error', 'The word '. $word .' not found.');
+            }
+
+
+            $example = str_replace('{it}', '', $example_with_it);
+            $example = str_replace('{/it}', '', $example);
         }
 
-
-        $example = str_replace('{it}', '', $example_with_it);
-        $example = str_replace('{/it}', '', $example);
-
-        $category = $this->category->all();
+        $category = $this->category->where('user_id', Auth::id())->get();
 
         //add from users.category.index
         if($request->category){
@@ -162,13 +173,24 @@ class WordController extends Controller
                     return redirect()->back()->with('error', 'The word '. $word .' not found.');
                 }
 
-                $word = $this->word->create([
-                    "user_id" => Auth::id(),
-                    "word" => $word,
-                    "meaning" => $this->translate($word),
-                    "definition" => $definitionAndExample['definition'],
-                    "example" => $definitionAndExample['example'],
-                ]);
+                $in_table_word = $this->word->where('word', $word)->first();
+                if($in_table_word) {
+                    $word = $this->word->create([
+                        "user_id" => Auth::id(),
+                        "word" => $word,
+                        "meaning" => $in_table_word->meaning,
+                        "definition" => $in_table_word->definition,
+                        "example" => $in_table_word->example,
+                    ]);
+                }else{
+                    $word = $this->word->create([
+                        "user_id" => Auth::id(),
+                        "word" => $word,
+                        "meaning" => $this->translate($word),
+                        "definition" => $definitionAndExample['definition'],
+                        "example" => $definitionAndExample['example'],
+                    ]);
+                }
 
                 if($request->category){
                     $word->categoryWord()->create([
