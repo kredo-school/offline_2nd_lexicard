@@ -5,7 +5,11 @@
     <div class="p-2 border rounded-3 mx-3">
         <div class="row">
             <div class="col-6">
-                <img src="{{ $classroom->image }}" alt="" class="w-100 logo-xl">
+                @if ($classroom->image)
+                    <img src="{{ $classroom->image }}" alt="" class="w-100 logo-xl">
+                @else
+                    <img src="{{ asset('images/classroom.jpg') }}" alt="" class="w-100 logo-xl">
+                @endif
             </div>
             <div class="col-6 p-4">
                 <h1 class="text-second fs-2">
@@ -25,11 +29,27 @@
                         <button type="submit" class="btn btn-yellow w-50 text-center p-2 border border-second rounded-4 my-3">Leave</button>
                     </form>
                 @else
-                    <form action="{{ route('classroom.join', $classroom->id) }}" method="post" class="text-center">
-                        @csrf
-                        @method('GET')
-                        <button type="submit" class="btn btn-yellow w-50 text-center p-2 border border-second rounded-4 my-3">Join</button>
-                    </form>
+                    @if($classroom->status_id == 1)
+                        <form action="{{ route('classroom.join', $classroom->id) }}" method="post" class="text-center">
+                            @csrf
+                            @method('GET')
+                            <button type="submit" class="btn btn-yellow w-50 text-center p-2 border border-second rounded-4 my-3">Join</button>
+                        </form>
+                    @else
+                        @if($classroom->isWaiting())
+                            <form action="{{ route('classroom.apply.cancel', $classroom->id) }}" method="post" class="text-center">
+                                @csrf
+                                @method('GET')
+                                <button type="submit" class="btn btn-yellow w-50 text-center p-2 border border-second rounded-4 my-3">Requested</button>
+                            </form>
+                        @else
+                            <form action="{{ route('classroom.apply', $classroom->id) }}" method="post" class="text-center">
+                                @csrf
+                                @method('GET')
+                                <button type="submit" class="btn btn-yellow w-50 text-center p-2 border border-second rounded-4 my-3">Apply</button>
+                            </form>
+                        @endif
+                    @endif
                 @endif
             </div>
         </div>
@@ -76,7 +96,11 @@
                         <div class="col-4">
                         </div>
                         <div class="col-4 text-center">
-                            <a href="{{ route('classroom.category', $category->id) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
+                            @if($classroom->isJoined() || $classroom->status_id == 1)
+                                <a href="{{ route('classroom.category', $category->id) }}" class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</a>
+                            @else
+                                <p class="text-second text-decoration-none fw-bold fs-3">{{ $category->name }}</p>
+                            @endif
                         </div>
                         <div class="col-2 justify-content-end d-flex align-items-center">
                             @if($category->isliked())
@@ -103,27 +127,31 @@
                 @endforelse
             @endif
         </div>
-    {{-- side bar --}}
+        {{-- side bar --}}
         <div class="col-4">
-            {{-- Quiz --}}
-            <a href="{{ route('classroom.quiz.index', $classroom->id) }}" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3">
-                Quiz
-            </a>
-            {{-- Sort Category --}}
-            <div class="my-3 border border-second text-center">
-                <p class="bg-second text-yellow fs-3 p-2">Sort</p>
-                <ul class="list-unstyled">
-                    <a href="{{ route('classroom.classroom.show', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.classroom.show')?'btn-yellow':'btn-outline-second' }}">All</a>
-                    <a href="{{ route('classroom.liked', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.liked')?'btn-yellow':'btn-outline-second' }}">Liked</a>
-                    <a href="{{ route('classroom.popular', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.popular')?'btn-yellow':'btn-outline-second' }}">Popular</a>
-                </ul>
-            </div>
+            @if($classroom->isJoined() || $classroom->status_id == 1)
+                {{-- Quiz --}}
+                <a href="{{ route('classroom.quiz.index', $classroom->id) }}" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3">
+                    Quiz
+                </a>
+                {{-- Sort Category --}}
+                <div class="my-3 border border-second text-center">
+                    <p class="bg-second text-yellow fs-3 p-2">Sort</p>
+                    <ul class="list-unstyled">
+                        <a href="{{ route('classroom.classroom.show', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.classroom.show')?'btn-yellow':'btn-outline-second' }}">All</a>
+                        <a href="{{ route('classroom.liked', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.liked')?'btn-yellow':'btn-outline-second' }}">Liked</a>
+                        <a href="{{ route('classroom.popular', $classroom->id) }}" class="btn border rounded-4 mt-4 fs-5 w-75 text-second {{ \Route::is('classroom.popular')?'btn-yellow':'btn-outline-second' }}">Popular</a>
+                    </ul>
+                </div>
+            @endif
             {{-- Admin --}}
             <button type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3" data-bs-toggle="modal" data-bs-target="#adminPasswordModal-{{ $classroom->id }}">
                 Admin
             </button>
         </div>
+
     </div>
+
 
 
 </div>

@@ -69,6 +69,12 @@ Route::group(["middleware" => "auth"], function() {
         Route::get('/join/{id}', [ClassroomController::class, 'join'])->name('join');
         Route::get('/leave/{id}', [ClassroomController::class, 'leave'])->name('leave');
 
+        #Apply
+        Route::get('/apply/{id}', [ClassroomController::class, 'apply'])->name('apply');
+        Route::get('/apply/cancel/{id}', [ClassroomController::class, 'apply_cancel'])->name('apply.cancel');
+        Route::get('/accept/{id}', [ClassroomController::class, 'accept'])->name('accept');
+        Route::get('/reject/{id}', [ClassroomController::class,'reject'])->name('reject');
+
         #Quiz
         Route::get('/quiz/{id}', [ClassroomController::class, 'quiz'])->name('quiz.index');
         Route::get('/quiz/{quiz_title_id}/show', [ClassroomController::class, 'quiz_show'])->name('quiz.show');

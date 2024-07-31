@@ -59,6 +59,9 @@ class ClassroomController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'name' => ['required','max:255'],
+            'description' => ['max:255'],
+            'status' => ['required'],
             'password' =>['required','confirmed']
         ]);
 
@@ -158,6 +161,25 @@ class ClassroomController extends Controller
         $classroom = $this->classroom->findOrFail($id);
 
         $classroom->userClassroom()->where('user_id', Auth::id())->delete();
+
+        return redirect()->route('classroom.classroom.show', $classroom);
+    }
+
+    //Apply
+    public function apply($id){
+        $classroom = $this->classroom->findOrFail($id);
+
+        $wait_list[] = ["user_id" => Auth::id()];
+
+        $classroom->waitList()->createMany($wait_list);
+
+        return redirect()->route('classroom.classroom.show', $classroom);
+    }
+
+    public function apply_cancel($id) {
+        $classroom = $this->classroom->findOrFail($id);
+
+        $classroom->waitList()->where('user_id', Auth::id())->delete();
 
         return redirect()->route('classroom.classroom.show', $classroom);
     }
@@ -366,6 +388,26 @@ class ClassroomController extends Controller
                 ->with('word', $word)
                 ->with('example', $example)
                 ->with('classroom', $classroom);
+    }
+
+    //Admin Accept
+    public function accept($id){
+        $classroom = $this->classroom->findOrFail($id);
+
+        $classroom->waitList()->where('user_id', Auth::id())->delete();
+
+        $category_post[] = ["user_id" => Auth::id()];
+        $classroom->userClassroom()->createMany($category_post);
+
+        return redirect()->route('classroom.admin.index', $classroom);
+    }
+
+    public function reject($id){
+        $classroom = $this->classroom->findOrFail($id);
+
+        $classroom->waitList()->where('user_id', Auth::id())->delete();
+
+        return redirect()->route('classroom.admin.index', $classroom);
     }
 
     //Admin Quiz

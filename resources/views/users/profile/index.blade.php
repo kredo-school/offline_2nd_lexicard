@@ -88,8 +88,19 @@
             @forelse($classrooms as $classroom)
                 <div class="mb-3">
                     <a href="{{ route('classroom.classroom.show', $classroom->id) }}" class="card m-2 shadow-sm p-3 rounded text-start text-decoration-none">
-                        <img src="{{ $classroom->image }}" alt="" class="logo-lg">
-                        <p class="text-second fs-5 my-2">{{ $classroom->name }}</p>
+                        @if ($classroom->image)
+                            <img src="{{ $classroom->image }}" alt="" class="logo-lg">
+                        @else
+                            <img src="{{ asset('images/classroom.jpg') }}" alt="" class="logo-lg">
+                        @endif
+                        <p class="text-second fs-5 my-2">
+                            {{ $classroom->name }}
+                            @if($classroom->status_id == 1)
+                                <i class="fa-solid fa-unlock"></i>
+                            @else
+                                <i class="fa-solid fa-lock"></i>
+                            @endif
+                        </p>
                         <p class="mb-2">{{ $classroom->description }}</p>
                     </a>
                 </div>

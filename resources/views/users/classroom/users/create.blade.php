@@ -28,6 +28,9 @@
                     </div>
                     <div class="col-7">
                         <input type="text" name="name" class="form-control">
+                        @error('name')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="row my-5">
@@ -36,10 +39,13 @@
                     </div>
                     <div class="col-7">
                         <textarea name="description" class="form-control"rows="5"></textarea>
+                        @error('description')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
-                <div class="row my-5">
+                <div class="row mt-5">
                     <div class="col-6 form-check align-items-center">
                         <div class="row">
                             <div class="col-6 d-flex align-items-center">
@@ -57,14 +63,20 @@
                         <input type="file" name="image" class="form-control">
                     </div>
                 </div>
+                @error('status')
+                    <p class="text-danger fw-bold">{{ $message }}</p>
+                @enderror
                 <div class="row my-5">
                     <div class="col-5">
-                        <p class="text-second fs-4 my-4">Password: </p>
-                        <p class="text-second fs-4 my-4">Conform Password: </p>
+                        <p class="text-second fs-4 mt-4">Password: </p>
+                        <p class="text-second fs-4 mt-4">Conform Password: </p>
                     </div>
                     <div class="col-7">
-                        <input type="text" name="password" class="form-control my-4">
-                        <input type="text" name="password_confirmation" class="form-control my-4">
+                        <input type="text" name="password" class="form-control mt-4">
+                        <input type="text" name="password_confirmation" class="form-control mt-4">
+                        @error('password')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>

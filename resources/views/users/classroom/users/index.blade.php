@@ -72,8 +72,19 @@
             @forelse($classrooms as $classroom)
                 <div class="col-4">
                     <a href="{{ route('classroom.classroom.show', $classroom) }}" class="card m-2 shadow-sm p-3 rounded text-start text-decoration-none" style="height: 24rem;">
-                        <img src="{{ $classroom->image }}" alt="" class="logo-lg my-2">
-                        <p class="text-second fs-5 my-2">{{ $classroom->name }}</p>
+                        @if ($classroom->image)
+                            <img src="{{ $classroom->image }}" alt="" class="logo-lg my-2">
+                        @else
+                            <img src="{{ asset('images/classroom.jpg') }}" alt="" class="logo-lg my-2">
+                        @endif
+                        <p class="text-second fs-5 my-2">
+                            {{ $classroom->name }}
+                            @if($classroom->status_id == 1)
+                                <i class="fa-solid fa-unlock"></i>
+                            @else
+                                <i class="fa-solid fa-lock"></i>
+                            @endif
+                        </p>
                         <p class="mb-2">{{ $classroom->description }}</p>
                     </a>
                 </div>
