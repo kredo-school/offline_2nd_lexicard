@@ -24,6 +24,14 @@ class Classroom extends Model
         return $this->userClassroom()->where('user_id', Auth::id())->exists();
     }
 
+    public function waitList(){
+        return $this->hasMany(WaitList::class, 'classroom_id');
+    }
+
+    public function isWaiting(){
+        return $this->waitList()->where('user_id', Auth::id())->exists();
+    }
+
     public function quizTitles()
     {
         return $this->hasMany(QuizTitle::class, 'class_id');

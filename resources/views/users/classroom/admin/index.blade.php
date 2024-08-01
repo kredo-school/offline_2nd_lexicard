@@ -6,7 +6,11 @@
     <div class="p-2 border rounded-3 mx-3">
         <div class="row">
             <div class="col-6">
-                <img src="{{ $classroom->image }}" alt="" class="w-100 logo-xl">
+                @if ($classroom->image)
+                    <img src="{{ $classroom->image }}" alt="" class="w-100 logo-xl">
+                @else
+                    <img src="{{ asset('images/classroom.jpg') }}" alt="" class="w-100 logo-xl">
+                @endif
             </div>
             <div class="col-6 p-4">
                 <h1 class="text-second fs-2">
@@ -37,26 +41,62 @@
 
     <div class="my-5">
         <div class="row">
-            @forelse($classroom->userClassroom as $user)
-            <div class="col-6">
-                <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
-                    <div class="col-8">
-                        {{-- if the category is from other user, it will display avatar and username --}}
-                        <a href="{{ route('profile.profile.show', $user->user->id) }}" class="text-second fs-5 text-decoration-none"><i class="fa-solid fa-circle-user fs-3"></i> {{ $user->user->name }}</a>
+            <div class="col-8">
+                <p class="text-yellow bg-second text-center p-2 mx-2 fs-5">Student</p>
+                <div class="row">
+                    @forelse($classroom->userClassroom as $user)
+                    <div class="col-6">
+                        <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
+                            <div class="col-8">
+                                @if($user->user->image)
+                                    <a href="{{ route('profile.profile.show', $user->user->id) }}" class="text-second fs-4 text-decoration-none d-flex align-items-center"><img src="{{ $user->user->image }}" alt="" class="rounded-circle avatar-sm me-2">{{ $user->user->name }}</a>
+                                @else
+                                    <a href="{{ route('profile.profile.show', $user->user->id) }}" class="text-second fs-4 text-decoration-none d-flex align-items-center"><i class="fa-solid fa-circle-user fs-2 me-2"></i>{{ $user->user->name }}</a>
+                                @endif
+                            </div>
+                            <div class="col-4 justify-content-end d-flex">
+                                <button type="button" class="btn btn-second fs-6 border border-second rounded-3" data-bs-toggle="modal" data-bs-target="#kickoutUser-{{ $user->user->id }}-{{ $classroom->id }}">
+                                    <i class="fa-solid fa-user-slash"></i> Kick
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-4 justify-content-end d-flex">
-                        <button type="button" class="btn btn-second w-50 p-2 fs-5 border border-second rounded-5 m-3" data-bs-toggle="modal" data-bs-target="#kickoutUser-{{ $user->user->id }}-{{ $classroom->id }}">
-                            <i class="fa-solid fa-user-slash"></i> Kick
-                        </button>
-                    </div>
+                    @empty
+                        <div class="col-12 text-center mt-5">
+                            No students yet.
+                        </div>
+                    @endforelse
                 </div>
             </div>
-            @empty
-                <div class="col-12 text-center">
-                    No students yet.
-                </div>
-            @endforelse
+            <div class="col-4">
+                <p class="text-yellow bg-second text-center p-2 mx-2 fs-5">Join Request</p>
+                    @forelse ($classroom->waitList as $user)
+                        <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
+                            <div class="col-8">
+                                @if($user->user->image)
+                                    <a href="{{ route('profile.profile.show', $user->user->id) }}" class="text-second fs-4 text-decoration-none d-flex align-items-center"><img src="{{ $user->user->image }}" alt="" class="rounded-circle avatar-sm me-2">{{ $user->user->name }}</a>
+                                @else
+                                    <a href="{{ route('profile.profile.show', $user->user->id) }}" class="text-second fs-4 text-decoration-none d-flex align-items-center"><i class="fa-solid fa-circle-user fs-2 me-2"></i>{{ $user->user->name }}</a>
+                                @endif
+                            </div>
+                            <div class="col-4 justify-content-end d-flex">
+                                <a href="{{ route('classroom.accept', $classroom->id) }}" class="btn btn-second fs-6 rounded-3 me-2">
+                                    <i class="fa-solid fa-check"></i>
+                                </a>
+                                <a href="{{ route('classroom.reject', $classroom->id) }}" class="btn btn-delete fs-6 rounded-3">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center mt-5">
+                            No Request.
+                        </div>
+                    @endforelse
+
+            </div>
         </div>
+
     </div>
 
 

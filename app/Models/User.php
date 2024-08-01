@@ -46,6 +46,10 @@ class User extends Authenticatable
         return $this->hasMany(UserClassroom::class, 'user_id');
     }
 
+    public function waitList(){
+        return $this->hasMany(WaitList::class, 'user_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
