@@ -119,7 +119,7 @@
                                 </a>
 
                                 <a class="navbar-brand" href="{{ route('home') }}">
-                                    <img src="{{ asset('storage/images/lexicard_logo.png') }}" alt="" class="logo-md">
+                                    <img src="{{ asset('images/lexicard_logo.png') }}" alt="" class="logo-md">
                                 </a>
 
                                 <a href="{{ route('classroom.classroom.index') }}" class="nav-link px-5 border-end border-yellow text-yellow">
