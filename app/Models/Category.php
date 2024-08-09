@@ -32,4 +32,8 @@ class Category extends Model
     public function isliked(){
         return $this->Like()->where('user_id', Auth::id())->exists();
     }
+
+    public function QuizResult(){
+        return $this->hasMany(QuizResult::class, 'category_id');
+    }
 }

@@ -2,6 +2,129 @@
 
 @section('content')
 <div class="container">
+    <div class="p-2 border rounded-3 mx-3">
+        <div class="row">
+            <div class="col-6">
+                <p class="fs-4 fw-bold m-3">Learning Progress</p>
+                <div class="list-group-horizontal d-flex">
+                    <a href="{{ route('home') }}" class="list-group-item btn btn-outline-second border rounded-2 text-second m-auto p-1 px-3 {{ request()->is('/')?'active':'' }}">today</a>
+                    <a href="{{ route('home.day', "week") }}" class="list-group-item btn btn-outline-second border rounded-2 text-second m-auto p-1 px-3 {{ request()->is('progress/week')?'active':'' }}">week</a>
+                    <a href="{{ route('home.day', "month") }}" class="list-group-item btn btn-outline-second border rounded-2 text-second m-auto p-1 px-3 {{ request()->is('progress/month')?'active':'' }}">month</a>
+                    <a href="{{ route('home.day', "year") }}" class="list-group-item btn btn-outline-second border rounded-2 text-second m-auto p-1 px-3 {{ request()->is('progress/year')?'active':'' }}">year</a>
+                    <a href="{{ route('home.day', "all") }}" class="list-group-item btn btn-outline-second border rounded-2 text-second m-auto p-1 px-3 {{ request()->is('progress/all')?'active':'' }}">all</a>
+                </div>
+                <div class="row my-3">
+                    <div class="col-6 d-flex align-items-center justify-content-center">
+                        <p class="">Words Adeed</p>
+                    </div>
+                    <div class="col-6 d-flex align-items-center justify-content-center">
+                        <p class="text-center">Answered Correctly/Quiz You Take</p>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-6">
+                        <p class="text-center fs-2">{{ $learning_data['added_words'] }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="text-center fs-2">{{ $learning_data['quiz_score'] }}/{{ $learning_data['quiz_answered'] }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1 d-flex justify-content-center align-items-center p-0">
+                        <form action="{{ route('home') }}" method="post">
+                            @csrf
+                            @method('GET')
+                            <input type="hidden" name="prev" value="{{ $date[0] }}">
+                            <button type="submit" class="btn"><i class="fa-solid fa-caret-left fa-3x"></i></button>
+                        </form>
+                    </div>
+                    <div class="col-10">
+                        <canvas id="myChart" class=""></canvas>
+                    </div>
+                    <div class="col-1 d-flex justify-content-center align-items-center p-0">
+                        <form action="{{ route('home') }}" method="post">
+                            @csrf
+                            @method('GET')
+                            <input type="hidden" name="next" value="{{ $date[0] }}">
+                            @if($date[0]!= date('Y-m-d'))
+                                <button type="submit" class="btn"><i class="fa-solid fa-caret-right fa-3x"></i></button>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <p class="fs-4 fw-bold m-3">Quiz Results</p>
+                <table class="table">
+                    <thead class="table-second">
+                        <th>category</th>
+                        <th class="text-center">format</th>
+                        <th class="text-center">score</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </thead>
+                    <tbody  class="table-yellow">
+                        @forelse($quiz_datas as $quiz_data)
+                            <tr>
+                                <td class="align-middle">{{ $quiz_data->category->name }}</td>
+                                <td class="text-center align-middle">{{ $quiz_data->format }}</td>
+                                <td class="text-center align-middle">{{ $quiz_data->score }}/{{ $quiz_data->category->categoryWord->count() }}</td>
+                                <td class="text-center align-middle">{{ $quiz_data->times_taken }} times</td>
+                                <td class="text-center align-middle">
+                                    {{ $quiz_data->updated_at->diffForHumans() }}
+                                </td>
+                                <td>
+                                    <form action="{{ route('quiz.quiz.show') }}" method="post">
+                                        @csrf
+                                        @method('GET')
+                                        <input type="hidden" name="category" value="{{ $quiz_data->category->id }}">
+                                        <input type="hidden" name="format" value="{{ $quiz_data->format }}">
+                                        <button type="submit" class="btn text-second p-0 text-decoration-underline">take again</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+
+                        @endforelse
+                        <td colspan="6" class="text-center"><a href="{{ route('quiz.result.list') }}">Check more</a></td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <script>
+        const ctx = document.getElementById('myChart');
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['<?php echo $date[6] ?>', '<?php echo $date[5] ?>', '<?php echo $date[4] ?>', '<?php echo $date[3] ?>', '<?php echo $date[2] ?>', '<?php echo $date[1] ?>', '<?php echo $date[0] ?>'],
+            datasets: [{
+              label: 'Number of Words Added',
+              data: ['<?php echo $added_words[6] ?>', '<?php echo $added_words[5] ?>', '<?php echo $added_words[4] ?>', '<?php echo $added_words[3] ?>', '<?php echo $added_words[2] ?>', '<?php echo $added_words[1] ?>', '<?php echo $added_words[0] ?>'],
+              borderWidth: 0.5
+            }, {
+              label: 'Number of Words Answered Correctly',
+              data: ['<?php echo $quiz_score_total[6] ?>', '<?php echo $quiz_score_total[5] ?>', '<?php echo $quiz_score_total[4] ?>', '<?php echo $quiz_score_total[3] ?>', '<?php echo $quiz_score_total[2] ?>', '<?php echo $quiz_score_total[1] ?>', '<?php echo $quiz_score_total[0] ?>'],
+              borderWidth: 0.5
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+
+
     <div class="row">
     {{-- category list --}}
         <div class="col-8">
