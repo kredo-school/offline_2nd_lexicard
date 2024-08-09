@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\QuizResult;
 use App\Models\Word;
 use ChrisKonnertz\DeepLy\DeepLy;
 use Illuminate\Http\Request;
@@ -10,11 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
-    private $category, $word;
-    public function __construct(Category $category, Word $word)
+    private $category, $word, $quizResult;
+    public function __construct(Category $category, Word $word, QuizResult $quizResult)
     {
         $this->category = $category;
         $this->word = $word;
+        $this->quizResult = $quizResult;
     }
 
     public function index() {
@@ -30,10 +32,12 @@ class QuizController extends Controller
         $all_categories = [];
 
         foreach ($categories as $category) {
-            
+
             if($category->user_id){
                 if($category->user_id == Auth::id() || $category->user->isFollowed() || $category->isLiked()) {
-                    $all_categories[] = $category;
+                    if($category->categoryWord->count() > 0){
+                        $all_categories[] = $category;
+                    }
                 }
             }
         }
@@ -42,6 +46,7 @@ class QuizController extends Controller
     }
 
     public function show(Request $request) {
+        session(['category_id' => $request->category, 'format' => $request->format]);
 
         $category = $this->category->where('id', $request->category)->get();
         $words_id = $category[0]->categoryWord()->pluck('word_id');
@@ -156,11 +161,40 @@ class QuizController extends Controller
             $choices = session('choices');
 
             $correct_answers = 0;
+            $questions = [];
+            $answer = [];
             foreach($quizzes as $key => $quiz) {
                 if($quiz['answer'] == $choices[$key]) {
                     $correct_answers++;
                 }
+
+                $questions[] = $quiz['question'];
+                $answer[] = $quiz['answer'];
             }
+
+
+
+            //store to quiz resutls table
+            $previous_result = $this->quizResult->where('category_id', session('category_id'))->where('format', session('format'))->first();
+            if($previous_result){
+                $previous_result->score = $correct_answers;
+                $previous_result->questions = json_encode($questions);
+                $previous_result->answers = json_encode($answer);
+                $previous_result->choices = json_encode($choices);
+                $previous_result->times_taken += 1;
+                $previous_result->save();
+            }else{
+                $this->quizResult->user_id = Auth::id();
+                $this->quizResult->category_id = session('category_id');
+                $this->quizResult->format = session('format');
+                $this->quizResult->score = $correct_answers;
+                $this->quizResult->questions = json_encode($questions);
+                $this->quizResult->answers = json_encode($answer);
+                $this->quizResult->choices = json_encode($choices);
+                $this->quizResult->times_taken = 1;
+                $this->quizResult->save();
+            }
+
 
             return view('users.quiz.result')
                     ->with('quizzes', $quizzes)
@@ -323,5 +357,12 @@ class QuizController extends Controller
         }
 
         return $flashcards;
+    }
+
+    public function result_list() {
+        $quiz_datas = $this->quizResult->where('user_id', Auth::id())->orderBy('times_taken', 'asc')->orderBy('updated_at', 'desc')->get();
+
+        return view('users.quiz.result_list')
+                ->with('quiz_datas', $quiz_datas);
     }
 }
