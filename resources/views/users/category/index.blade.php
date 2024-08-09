@@ -157,7 +157,7 @@
                 </div>
             </div>
         @empty
-            <p class="text-center text-second my-5">No Word</p>
+            <p class="text-center text-second my-5">No Word yet.</p>
         @endforelse
     </div>
 </div>

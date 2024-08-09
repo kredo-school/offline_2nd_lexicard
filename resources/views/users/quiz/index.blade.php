@@ -41,14 +41,16 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <p class="text-second p-2 my-2 text-center w-100 m-auto fs-3">Choose Quiz Format</p>
+                    <p class="text-second p-2 my-2 text-center w-100 m-auto fs-3">Choose Quiz Category</p>
                     <div class="form-check ps-0">
-                        @foreach($categories as $category)
+                        @forelse($categories as $category)
                             <div class="">
                                 <input type="radio" name="category" class="btn-check form-check-input" value="{{ $category->id }}" id="{{ $category->id }}" autocomplete="off">
                                 <label class="btn btn-outline-yellow w-100 p-3 fs-5 border border-second rounded-4 my-2 fw-semibold" for="{{ $category->id }}">{{ $category->name }}</label>
                             </div>
-                        @endforeach
+                        @empty
+                            <p class="text-second my-5 text-center ">No categories available.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>
