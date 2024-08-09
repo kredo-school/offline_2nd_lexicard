@@ -85,9 +85,13 @@
                                 </td>
                             </tr>
                         @empty
-
+                            <tr>
+                                <td colspan="6" class="text-center">Quiz not taken yet</td>
+                            </tr>
                         @endforelse
-                        <td colspan="6" class="text-center"><a href="{{ route('quiz.result.list') }}">Check more</a></td>
+                        <tr>
+                            <td colspan="6" class="text-center"><a href="{{ route('quiz.result.list') }}">Check more</a></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -128,7 +132,7 @@
     <div class="row">
     {{-- category list --}}
         <div class="col-8">
-            @foreach($categories as $category)
+            @forelse($categories as $category)
                 <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                     <div class="col-4">
                         @if($category->classroom_id == null)
@@ -167,7 +171,9 @@
                         <p class="text-second text-end ms-3">{{ $category->categoryWord->count() }}  Words</p>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <p class="text-second text-center my-5">No category yet.</p>
+            @endforelse
         </div>
     {{-- side bar --}}
         <div class="col-4">

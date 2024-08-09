@@ -26,7 +26,7 @@
 
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="d-flex flex-column vh-100">
         <nav class="navbar navbar-expand-md navbar-light bg-yellow shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
@@ -98,14 +98,14 @@
         @endif
 
 
-        <main class="py-4 bg-white">
+        <main class="py-4 bg-white mb-auto">
             @yield('content')
         </main>
 
         @guest
 
         @else
-            <footer class="bg-second py-5 mt5-">
+            <footer class="bg-second py-5">
                 <nav class="navbar navbar-expand-md">
                     <div class="container">
                         <ul class="navbar-nav m-auto align-items-center">
