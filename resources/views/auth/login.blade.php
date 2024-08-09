@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-4 mt-5">
             <div class="card bg-white border rounded-5">
-                <div class="card-body p-5">
+                <div class="card-body p-5 text-center">
                     <p class="display-6 bg-white text-center fw-bold text-second mt-4 mb-5">Login</p>
 
                     <form method="POST" action="{{ route('login') }}">
@@ -13,7 +13,7 @@
 
                         <div class="row mb-3 justify-content-center">
                             <div class="col-md-10 mt-5">
-                                <p class="text-second fw-bold">email</p>
+                                <p class="text-second fw-bold text-start">email</p>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
@@ -26,7 +26,7 @@
 
                         <div class="row mb-4 justify-content-center">
                             <div class="col-md-10">
-                                <p class="text-second fw-bold">password</p>
+                                <p class="text-second fw-bold text-start">password</p>
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
@@ -59,6 +59,8 @@
                             </div>
                         </div>
                     </form>
+
+                    <a href="{{ route('google.redirect') }}" class="btn btn-primary my-4 mx-auto text-center"> Login with Google </a>
                 </div>
             </div>
         </div>
