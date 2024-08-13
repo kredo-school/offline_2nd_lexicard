@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SortRequest;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\QuizResult;
 use App\Models\Word;
 use Illuminate\Support\Facades\Auth;
-
-
+use Ramsey\Collection\Sort;
 
 class HomeController extends Controller
 {
@@ -250,7 +250,7 @@ class HomeController extends Controller
                 ->with('quiz_datas', $quiz_datas);
     }
 
-    public function otheruser(Request $request)
+    public function otheruser(SortRequest $request)
     {
         $categories = $this->category->where('user_id', $request->other_user)->latest()->get();
 

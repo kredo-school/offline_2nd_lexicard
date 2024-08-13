@@ -148,6 +148,9 @@
             <button type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3" data-bs-toggle="modal" data-bs-target="#adminPasswordModal-{{ $classroom->id }}">
                 Admin
             </button>
+            @if(isset($error))
+                <p class="text-danger text-center">{{ $error }}</p>
+            @endif
         </div>
 
     </div>

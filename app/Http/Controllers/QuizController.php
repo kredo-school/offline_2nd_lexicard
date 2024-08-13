@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QuizRequest;
+use App\Http\Requests\QuizRunRequest;
 use App\Models\Category;
 use App\Models\QuizResult;
 use App\Models\Word;
 use ChrisKonnertz\DeepLy\DeepLy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+
 
 class QuizController extends Controller
 {
@@ -45,7 +50,7 @@ class QuizController extends Controller
         return $all_categories;
     }
 
-    public function show(Request $request) {
+    public function show(QuizRequest $request) {
         session(['category_id' => $request->category, 'format' => $request->format]);
 
         $category = $this->category->where('id', $request->category)->get();
@@ -125,13 +130,45 @@ class QuizController extends Controller
     }
 
 //Quiz Creation and Running
-    public function runQuizzes($num, Request $request) {
-        if($request->choice) {
+    public function runQuizzes($num, QuizrunRequest $request) {
+
+        if(session('format') == "JtoEQ" || session('format') == "EtoJQ") {
+            $validator = Validator::make($request->all(), [
+                'choice' => ['required']
+            ]);
+
+            if ($validator->fails()) {
+                $quizzes = session('quizzes');
+
+                $quiz = $quizzes[$num];
+                return view('users.quiz.quiz')
+                        ->with('num', $num)
+                        ->with('quiz', $quiz)
+                        ->with('error', 'Please select an answer.');
+            }
+
+
             $choices = session('choices');
             $choices[] = $request->choice;
 
             session(['choices' => $choices]);
-        }else if($request->input) {
+
+        }else{
+            $validator = Validator::make($request->all(), [
+                'input' => ['required'],
+            ]);
+
+            if ($validator->fails()) {
+                $quizzes = session('quizzes');
+
+                $quiz = $quizzes[$num];
+                return view('users.quiz.fill_in_the_blank')
+                        ->with('num', $num)
+                        ->with('quiz', $quiz)
+                        ->with('error', 'Please enter an answer.');
+            }
+
+
             $choices = session('choices');
             $choices[] = $request->input;
 

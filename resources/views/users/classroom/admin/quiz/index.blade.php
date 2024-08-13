@@ -10,6 +10,13 @@
             <button type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3" data-bs-toggle="modal" data-bs-target="#createNewQuizModal">
                 Create New Quiz
             </button>
+
+            @if ($errors->has('title'))
+                <p class="text-danger text-center">{{ $errors->first('title') }}</p>
+            @endif
+            @error('number')
+                <p class="text-danger text-center">{{ $errors->first('number') }}</p>
+            @enderror
         </div>
     </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Models\Follow;
 use App\Models\Like;
@@ -21,7 +22,7 @@ class CategoryController extends Controller
         $this->user = $user;
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         $this->category->user_id = Auth::id();
         $this->category->name = $request->category;

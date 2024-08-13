@@ -15,6 +15,9 @@
             <div class="row">
                 <div class="col-6">
                     <p class="text-second p-2 my-2 text-center w-100 m-auto fs-3">Choose Quiz Format</p>
+                    @if ($errors->has('format'))
+                        <p class="text-danger text-center">{{ $errors->first('format') }}</p>
+                    @endif
                     <div class="form-check ps-0">
                         <p class="text-yellow bg-second p-2 my-5 text-center w-25 fs-5">Quiz</p>
                         <div class="">
@@ -42,6 +45,9 @@
                 </div>
                 <div class="col-6">
                     <p class="text-second p-2 my-2 text-center w-100 m-auto fs-3">Choose Quiz Category</p>
+                    @if ($errors->has('category'))
+                        <p class="text-danger text-center">{{ $errors->first('category') }}</p>
+                    @endif
                     <div class="form-check ps-0">
                         @forelse($categories as $category)
                             <div class="">

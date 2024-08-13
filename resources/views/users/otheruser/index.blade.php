@@ -45,7 +45,7 @@
 
             <div class="my-5">
             {{-- category list --}}
-            @foreach($categories as $category)
+            @forelse($categories as $category)
                 <div class="row bg-yellow border rounded-4 p-3 mx-2 my-3 align-items-center">
                     <div class="col-4">
                         @if($category->user->image)
@@ -77,7 +77,9 @@
                         <p class="text-second text-end ms-3">{{ $category->categoryWord->count() }}  Words</p>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <p class="text-second text-center p-5">No categories founded.</p>
+            @endforelse
             </div>
         </div>
     </div>
