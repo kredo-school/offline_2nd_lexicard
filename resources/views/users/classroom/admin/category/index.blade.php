@@ -42,15 +42,9 @@
             <button type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3" data-bs-toggle="modal" data-bs-target="#createNewCategoryModal-{{ $classroom->id }}">
                 Create New Category
             </button>
-            {{-- Sort Category --}}
-            <form action="#" method="post" class="my-3 border border-second text-center">
-                <p class="bg-second text-yellow fs-3 p-2">Sort</p>
-                <ul class="list-unstyled">
-                    <button type="submit" name="all" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">All</button>
-                    <button type="submit" name="my_category" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">Liked</button>
-                    <button type="submit" name="liked" class="btn btn-outline-second border rounded-4 mt-4 fs-5 w-75 text-second">Popular</button>
-                </ul>
-            </form>
+            @error('category')
+                <p class="text-danger text-center">{{ $errors->first('category') }}</p>
+            @enderror
         </div>
     </div>
 

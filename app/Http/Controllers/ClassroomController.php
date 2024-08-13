@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\ClassroomAdminLoginRequest;
+use App\Http\Requests\ClassroomQuizCreateRequest;
+use App\Http\Requests\ClassroomQuizQuestionRequest;
 use App\Models\Category;
 use App\Models\Classroom;
 use App\Models\Like;
@@ -62,7 +66,8 @@ class ClassroomController extends Controller
             'name' => ['required','max:255'],
             'description' => ['max:255'],
             'status' => ['required'],
-            'password' =>['required','confirmed']
+            'password' =>['required','confirmed'],
+            'image' => ['image','mimes:jpeg,png,jpg'],
         ]);
 
         $this->classroom->name = $request->name;
@@ -290,12 +295,15 @@ class ClassroomController extends Controller
                 return view('users.classroom.admin.index')
                         ->with('classroom', $classroom);
             }else{
-                return redirect()->route('classroom.classroom.show', $classroom)->with('error', 'Password is incorrect');
+                return view('users.classroom.users.show')
+                        ->with('classroom', $classroom)
+                        ->with('error', 'Password is incorrect');
             }
+        }else{
+            return view('users.classroom.users.show')
+                    ->with('classroom', $classroom)
+                    ->with('error', 'Please input password');
         }
-
-        return view('users.classroom.admin.index')
-                ->with('classroom', $classroom);
     }
 
     public function admin_edit($id) {
@@ -308,6 +316,13 @@ class ClassroomController extends Controller
 
 
     public function admin_update(Request $request, $id) {
+        $request->validate([
+            'name' => ['required','max:255'],
+            'description' => ['max:255'],
+            'status' => ['required'],
+            'image' => ['image','mimes:jpeg,png,jpg'],
+        ]);
+
         $classroom = $this->classroom->findOrFail($id);
 
         $classroom->name = $request->name;
@@ -318,7 +333,8 @@ class ClassroomController extends Controller
         $classroom->status_id = $request->status;
         $classroom->save();
 
-        return redirect()->route('classroom.admin.index', $classroom);
+        return view('users.classroom.admin.index')
+                ->with('classroom', $classroom);
     }
 
     public function admin_delete($id) {
@@ -344,7 +360,7 @@ class ClassroomController extends Controller
                 ->with('classroom', $classroom);
     }
 
-    public function admin_category_store($id, Request $request) {
+    public function admin_category_store($id, CategoryRequest $request) {
         $classroom = $this->classroom->findOrFail($id);
 
         $this->category->name = $request->category;
@@ -418,7 +434,7 @@ class ClassroomController extends Controller
                 ->with('classroom', $classroom);
     }
 
-    public function admin_quiz_create($id, Request $request) {
+    public function admin_quiz_create($id, ClassroomQuizCreateRequest $request) {
         $classroom = $this->classroom->findOrFail($id);
         $title = $request->title;
         $number = $request->number;

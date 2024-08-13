@@ -57,15 +57,20 @@
                                 <label class="form-check-label fs-4" for="inlineCheckbox2">Public</label>
                             </div>
                         </div>
+                        @error('status')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror
                     </div>
-                    <div class="col-6 d-flex">
-                        <p class="text-second fs-4 me-3">Image: </p>
-                        <input type="file" name="image" class="form-control">
+                    <div class="col-6">
+                        <div class="d-flex">
+                            <p class="text-second fs-4 me-3">Image: </p>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                        @error('image')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
-                @error('status')
-                    <p class="text-danger fw-bold">{{ $message }}</p>
-                @enderror
                 <div class="row my-5">
                     <div class="col-5">
                         <p class="text-second fs-4 mt-4">Password: </p>

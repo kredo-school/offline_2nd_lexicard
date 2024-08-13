@@ -28,6 +28,9 @@
                     </div>
                     <div class="col-7">
                         <input type="text" class="form-control" value="{{ $user->name }}" name="name">
+                        @error('name')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="row my-5">
@@ -36,6 +39,9 @@
                     </div>
                     <div class="col-7">
                         <input type="text" class="form-control" value="{{ $user->email }}" name="email">
+                        @error('email')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
@@ -45,6 +51,9 @@
                     </div>
                     <div class="col-7">
                         <input type="file" name="image" class="form-control" id="">
+                        @error('image')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>

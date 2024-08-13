@@ -187,10 +187,16 @@
                     <button class="btn btn-search rounded-end-4" type="submit">Search</button>
                   </div>
             </form>
+            @if (session('error'))
+                <p class="text-danger text-center">{{ session('error') }}</p>
+            @endif
             {{-- Create New Category --}}
             <button type="button" class="btn btn-yellow w-100 p-3 fs-5 border border-second rounded-4 my-3" data-bs-toggle="modal" data-bs-target="#createNewCategoryModal">
                 Create New Category
             </button>
+            @if ($errors->has('category'))
+                <p class="text-danger text-center">{{ $errors->first('category') }}</p>
+            @endif
             {{-- Sort Category --}}
             <div class="my-3 border border-second text-center">
                 <p class="bg-second text-yellow fs-3 p-2">Sort</p>
@@ -214,7 +220,11 @@
                             </select>
                             <button class="btn border rounded-end-4 text-second fs-5 {{ \Route::is('home.other.user')?'btn-yellow':'btn-outline-second' }}" type="submit">Button</button>
                         </div>
+                        @if ($errors->has('user_id'))
+                            <p class="text-danger text-center">{{ $errors->first('user_id') }}</p>
+                        @endif
                     </form>
+
                 </ul>
             </div>
         </div>

@@ -41,15 +41,16 @@
                 @for($i=0; $i<$number; $i++)
                 <tr class="table-white">
                     <td class="text-center">{{ $i+1 }}</td>
-                    <td><input type="text" name="question[]" class="form-control bg-yellow border border-second text-second"></td>
-                    <td><input type="text" name="answer[]" class="form-control bg-yellow border border-second text-second"></td>
-                    <td><input type="text" name="choice1[]" class="form-control bg-yellow border border-second text-second"></td>
-                    <td><input type="text" name="choice2[]" class="form-control bg-yellow border border-second text-second"></td>
-                    <td><input type="text" name="choice3[]" class="form-control bg-yellow border border-second text-second"></td>
+                    <td><input type="text" name="question[]" class="form-control bg-yellow border border-second text-second" required></td>
+                    <td><input type="text" name="answer[]" class="form-control bg-yellow border border-second text-second" required></td>
+                    <td><input type="text" name="choice1[]" class="form-control bg-yellow border border-second text-second" required></td>
+                    <td><input type="text" name="choice2[]" class="form-control bg-yellow border border-second text-second" required></td>
+                    <td><input type="text" name="choice3[]" class="form-control bg-yellow border border-second text-second" required></td>
                 </tr>
                 @endfor
             </tbody>
         </table>
+
 
         <div class="text-center my-5">
             <button type="submit" class="btn btn-yellow border rounded-4 w-25 p-2 fs-4">Create</button>

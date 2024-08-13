@@ -103,9 +103,7 @@
             </div>
         </div>
         @if (session('error'))
-            <div class="alert alert-danger text-center">
-                {{ session('error') }}
-            </div>
+            <p class="text-danger text-center">{{ session('error') }}</p>
         @endif
     </div>
     @endif

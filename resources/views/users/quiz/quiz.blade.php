@@ -38,6 +38,9 @@
                 </div>
             </div>
             <div class="text-center">
+                @if(isset($error))
+                    <p class="text-danger p-2 w-75 m-auto">{{ $error }}</p>
+                @endif
                 <button type="submit" class="btn btn-second w-25 m-auto p-3 fs-5 my-5 fw-semibold">Next</button>
             </div>
         </form>
