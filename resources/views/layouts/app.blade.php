@@ -26,7 +26,7 @@
 
 </head>
 <body>
-    <div id="app" class="d-flex flex-column vh-100">
+    <div id="app" class="d-flex flex-column vh-100 bg-white">
         <nav class="navbar navbar-expand-md navbar-light bg-yellow shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
