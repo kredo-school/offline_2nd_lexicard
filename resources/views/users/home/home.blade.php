@@ -211,7 +211,7 @@
                         @method('GET')
                         <div class="input-group mb-3 m-auto mt-4 w-75">
                             <select class="form-select border rounded-start-4 text-second fs-5 text-center" name="other_user">
-                                <option hidden>Other User</option>
+                                <option hidden value="null">Other User</option>
                                 @forelse (Auth::user()->following as $following)
                                     <option value="{{ $following->following->id }}">{{ $following->following->name }}</option>
                                 @empty
@@ -220,8 +220,8 @@
                             </select>
                             <button class="btn border rounded-end-4 text-second fs-5 {{ \Route::is('home.other.user')?'btn-yellow':'btn-outline-second' }}" type="submit">Button</button>
                         </div>
-                        @if ($errors->has('user_id'))
-                            <p class="text-danger text-center">{{ $errors->first('user_id') }}</p>
+                        @if ($errors->has('other_user'))
+                            <p class="text-danger text-center">{{ $errors->first('other_user') }}</p>
                         @endif
                     </form>
 

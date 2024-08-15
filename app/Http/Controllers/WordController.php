@@ -129,6 +129,14 @@ class WordController extends Controller
             return $def_and_exa;
         }
 
+        if(!isset($exp[0])){
+            $def_and_exa = [
+                'definition' => $def[0][0],
+                'example' => 'No example found.',
+            ];
+            return $def_and_exa;
+        }
+
         $def_and_exa = [
             'definition' => $def[0][0],
             'example' => $exp[0],
@@ -165,12 +173,15 @@ class WordController extends Controller
 
     public function store_more(Request $request)
     {
+        $unfound_words = [];
+
         foreach ($request->word as $word) {
             if($word) {
                 $definitionAndExample = $this->def_and_exa($word);
 
                 if($definitionAndExample['definition'] == null){
-                    return redirect()->back()->with('error', 'The word '. $word .' not found.');
+                    $unfound_words[] = $word;
+                    continue;
                 }
 
                 $in_table_word = $this->word->where('word', $word)->first();
@@ -202,7 +213,9 @@ class WordController extends Controller
 
         $category = $this->category->findOrFail($request->category);
         if($category->classroom_id == null){
-            return redirect()->route('category.category.show', $request->category);
+            return view('users.category.index')
+                ->with('category', $category)
+                ->with('unfound_words', $unfound_words);
         }else{
             return redirect()->route('classroom.admin.category.show', $request->category);
         }
