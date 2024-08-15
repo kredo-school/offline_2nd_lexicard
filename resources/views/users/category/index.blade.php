@@ -105,6 +105,16 @@
         @if (session('error'))
             <p class="text-danger text-center">{{ session('error') }}</p>
         @endif
+        @if(isset($unfound_words))
+            <p class="text-danger text-center">
+                The word
+                @foreach ($unfound_words as $unfound_word)
+                    <span> {{ $unfound_word  }} </span>
+                @endforeach
+                not found.
+            </p>
+        @endif
+        
     </div>
     @endif
 

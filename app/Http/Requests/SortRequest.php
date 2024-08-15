@@ -22,14 +22,14 @@ class SortRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required'],
+            'other_user' => ['prohibited_if:other_user,null'],
         ];
     }
 
     public function messages()
     {
         return [
-            'user_id.required' => 'Please select a user.',
+            'other_user.prohibited_if' => 'Please select a user.',
         ];
     }
 }
