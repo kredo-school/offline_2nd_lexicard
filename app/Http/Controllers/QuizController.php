@@ -301,6 +301,9 @@ class QuizController extends Controller
     public function createFillInQuiz($words) {
         $quizzes = [];
         foreach($words as $word) {
+            if($word[0]->example == "No example found.") {
+                continue;
+            }
             $example_with_it = $word[0]->example;
             $example_meaning = $this->translateExample($example_with_it);
 
