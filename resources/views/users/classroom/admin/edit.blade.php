@@ -28,6 +28,9 @@
                     </div>
                     <div class="col-7">
                         <input type="text" name="name" class="form-control" value="{{ $classroom->name }}">
+                        @error('name')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="row my-5">
@@ -36,6 +39,9 @@
                     </div>
                     <div class="col-7">
                         <textarea name="description" class="form-control"rows="5" >{{ $classroom->description }}</textarea>
+                        @error('description')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
@@ -52,9 +58,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 d-flex">
-                        <p class="text-second fs-4 me-3">Image: </p>
-                        <input type="file" name="image" class="form-control" id="">
+                    <div class="col-6">
+                        <div class="d-flex">
+                            <p class="text-second fs-4 me-3">Image: </p>
+                            <input type="file" name="image" class="form-control" id="">
+                        </div>
+                        @error('image')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>

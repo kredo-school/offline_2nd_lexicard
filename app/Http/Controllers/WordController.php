@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\WordUpdateRequest;
 use App\Models\Word;
 use App\Models\Category;
 use App\Models\Classroom;
@@ -236,7 +237,7 @@ class WordController extends Controller
                 ->with('example', $example);
     }
 
-    public function update(Request $request, Word $word)
+    public function update(WordUpdateRequest $request, Word $word)
     {
         $word = $this->word->findOrFail($word->id);
         $word->word = $request->word;

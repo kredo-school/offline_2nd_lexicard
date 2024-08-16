@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\ClassroomAdminLoginRequest;
 use App\Http\Requests\ClassroomQuizCreateRequest;
 use App\Http\Requests\ClassroomQuizQuestionRequest;
+use App\Http\Requests\ClassroomQuizUpdateRequest;
 use App\Models\Category;
 use App\Models\Classroom;
 use App\Models\Like;
@@ -493,7 +494,7 @@ class ClassroomController extends Controller
         return redirect()->back();
     }
 
-    public function admin_quiz_update($id, Request $request) {
+    public function admin_quiz_update($id, ClassroomQuizUpdateRequest $request) {
         $quiz_title = $this->quizTitle->findOrFail($id);
 
         $quiz_title->title = $request->title;

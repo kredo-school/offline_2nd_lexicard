@@ -94,31 +94,31 @@
                     <p class="text-second">Question: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="question" class="form-control">
+                    <input type="text" name="question" class="form-control" required>
                 </div>
                 <div class="col-5 my-3 fw-semibold">
                     <p class="text-second">Answer: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="answer" class="form-control">
+                    <input type="text" name="answer" class="form-control" required>
                 </div>
                 <div class="col-5 my-3 fw-semibold">
                     <p class="text-second">Choice1: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="choice1" class="form-control">
+                    <input type="text" name="choice1" class="form-control" required>
                 </div>
                 <div class="col-5 my-3 fw-semibold">
                     <p class="text-second">Choice2: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="choice2" class="form-control">
+                    <input type="text" name="choice2" class="form-control" required>
                 </div>
                 <div class="col-5 my-3 fw-semibold">
                     <p class="text-second">Choice3: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="choice3" class="form-control">
+                    <input type="text" name="choice3" class="form-control" required>
                 </div>
             </div>
             <div class="row justify-content-between my-4">
@@ -209,31 +209,31 @@
                     <p class="text-second">Question: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="question" value="{{ $quiz->question }}" class="form-control">
+                    <input type="text" name="question" value="{{ $quiz->question }}" class="form-control" required>
                 </div>
                 <div class="col-5 my-3 fw-semibold">
                     <p class="text-second">Answer: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="answer" value="{{ $quiz->answer }}" class="form-control">
+                    <input type="text" name="answer" value="{{ $quiz->answer }}" class="form-control" required>
                 </div>
                 <div class="col-5 my-3 fw-semibold">
                     <p class="text-second">Choice1: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="choice1" value="{{ $quiz->choice1 }}" class="form-control">
+                    <input type="text" name="choice1" value="{{ $quiz->choice1 }}" class="form-control" required>
                 </div>
                 <div class="col-5 my-3 fw-semibold">
                     <p class="text-second">Choice2: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="choice2" value="{{ $quiz->choice2 }}" class="form-control">
+                    <input type="text" name="choice2" value="{{ $quiz->choice2 }}" class="form-control" required>
                 </div>
                 <div class="col-5 my-3 fw-semibold">
                     <p class="text-second">Choice3: </p>
                 </div>
                 <div class="col-7">
-                    <input type="text" name="choice3" value="{{ $quiz->choice3 }}" class="form-control">
+                    <input type="text" name="choice3" value="{{ $quiz->choice3 }}" class="form-control" required>
                 </div>
             </div>
             <div class="row justify-content-between my-4">
