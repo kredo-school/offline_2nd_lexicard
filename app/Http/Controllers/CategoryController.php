@@ -37,7 +37,7 @@ class CategoryController extends Controller
                 ->with('category', $category);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
         $category = $this->category->findOrFail($category->id);
         $category->name = $request->category;
