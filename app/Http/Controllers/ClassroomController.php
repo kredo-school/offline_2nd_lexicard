@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\ClassroomAdminLoginRequest;
+use App\Http\Requests\ClassroomAdminRequest;
 use App\Http\Requests\ClassroomQuizCreateRequest;
 use App\Http\Requests\ClassroomQuizQuestionRequest;
 use App\Http\Requests\ClassroomQuizUpdateRequest;
@@ -147,9 +148,12 @@ class ClassroomController extends Controller
         $search = $request->classroom;
         $classrooms = $this->classroom->where('name', 'like', '%'.$search.'%')->get();
 
-        return view('users.classroom.users.search')
+        $display = 'all_class';
+
+        return view('users.classroom.users.index')
                 ->with('classrooms', $classrooms)
-                ->with('search', $search);
+                ->with('search', $search)
+                ->with('display', $display);
     }
 
     //Join & Leave
@@ -291,7 +295,7 @@ class ClassroomController extends Controller
     public function admin_index($id, Request $request) {
         $classroom = $this->classroom->findOrFail($id);
 
-        if(isset($request->password)){
+        if($request->password){
             if(password_verify($request->password, $classroom->password)){
                 return view('users.classroom.admin.index')
                         ->with('classroom', $classroom);
@@ -301,9 +305,8 @@ class ClassroomController extends Controller
                         ->with('error', 'Password is incorrect');
             }
         }else{
-            return view('users.classroom.users.show')
-                    ->with('classroom', $classroom)
-                    ->with('error', 'Please input password');
+            return view('users.classroom.admin.index')
+                    ->with('classroom', $classroom);
         }
     }
 
