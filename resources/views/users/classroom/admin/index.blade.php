@@ -138,7 +138,7 @@
     <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
         <div class="modal-header justify-content-center">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Kick out user</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Classroom</h1>
         </div>
         <div class="modal-body">
         <form action="{{ route('classroom.admin.delete', $classroom->id) }}" method="post" class="w-75 m-auto">
